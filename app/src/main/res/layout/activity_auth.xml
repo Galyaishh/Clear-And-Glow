@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/light_pink"
+    tools:context=".activities.AuthActivity">
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/auth_IMG_logo"
+        android:layout_width="270dp"
+        android:layout_height="270dp"
+        android:src="@drawable/app_logo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="0dp"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/auth_TXT_moto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/auth_IMG_logo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center"
+        android:fontFamily="@font/heebo"
+        android:textStyle="bold"
+        android:textSize="35sp"
+        android:text="@string/clear_information_for_clear_face"
+        android:layout_marginTop="0dp"
+        />
+
+<!--SIGN IN-->
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/auth_BTN_signup"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:text="@string/sign_up"
+        android:backgroundTint="@color/pink"
+        app:layout_constraintWidth_percent="0.85"
+        app:layout_constraintTop_toBottomOf="@id/auth_TXT_moto"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/margin_top_login"
+        android:fontFamily="@font/heebo"
+        android:textSize="@dimen/login_text_size"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textColor="@color/white"
+        style="@style/RoundedFAB"
+        />
+
+<!--Google sign in-->
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/auth_BTN_google"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:text="@string/continue_with_google"
+        android:backgroundTint="@color/pink"
+        app:layout_constraintWidth_percent="0.85"
+        app:layout_constraintTop_toBottomOf="@id/auth_BTN_signup"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/margin_top_login"
+        android:fontFamily="@font/heebo"
+        android:textSize="@dimen/login_text_size"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:gravity="center"
+        style="@style/RoundedFAB"
+        />
+
+<!--ALREADY A MEMBER?-->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/auth_TXT_already_member"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/already_a_member"
+        app:layout_constraintTop_toBottomOf="@id/auth_BTN_google"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/margin_top_login"
+        android:fontFamily="@font/heebo"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        />
+
+<!--SIGN IN-->
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/auth_BTN_signin"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        app:backgroundTint="@color/pink"
+        app:layout_constraintWidth_percent="0.85"
+        app:layout_constraintTop_toBottomOf="@id/auth_TXT_already_member"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/margin_top_login"
+        android:text="@string/sign_in"
+        android:fontFamily="@font/heebo"
+        android:textSize="@dimen/login_text_size"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:gravity="center"
+        style="@style/RoundedFAB"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

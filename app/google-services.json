@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "773835837971",
+    "project_id": "clearglow-ba4bb",
+    "storage_bucket": "clearglow-ba4bb.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:773835837971:android:69b70af1829031ac2ee5e6",
+        "android_client_info": {
+          "package_name": "com.example.clear_and_glow"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "773835837971-624rsjq8v7br1uj35c0n5bmkeb53e0v6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOjcyP41DVVyNsOEahA3u1-Mcstof9GXw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "773835837971-624rsjq8v7br1uj35c0n5bmkeb53e0v6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

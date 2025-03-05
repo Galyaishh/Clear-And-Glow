@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Clear-And-Glow</string>
+    <string name="clear_information_for_clear_face">clear information for clear face</string>
+    <string name="already_a_member">Already a member?</string>
+    <string name="continue_with_google">Continue with Google</string>
+    <string name="sign_up">Sign up</string>
+    <string name="sign_in">Sign in</string>
+    <string name="log_in">Log in</string>
+    <string name="enter_your_password">Enter your password</string>
+    <string name="app_logo">App Logo</string>
+    <string name="enter_your_email">Enter your email</string>
+    <string name="back">Back</string>
+    <string name="last_name">Last name</string>
+    <string name="first_name">First name</string>
+    <string name="create_account">Create Account</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+</resources>

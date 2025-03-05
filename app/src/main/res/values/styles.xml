@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Rounded FAB Style -->
+    <style name="RoundedFAB" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="shapeAppearanceOverlay">@style/RoundedFABShape</item>
+    </style>
+
+    <!-- Define the Shape for Full Roundness -->
+    <style name="RoundedFABShape" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerSize">60%</item> <!-- Makes it fully rounded -->
+    </style>
+
+</resources>
