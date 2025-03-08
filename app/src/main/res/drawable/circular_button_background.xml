@@ -1,0 +1,7 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/pink" /> <!-- Same color as the tint -->
+    <corners android:radius="300dp" />
+    <stroke
+        android:width="2dp"
+        android:color="@color/light_pink" /> <!-- Border matches the button -->
+</shape>

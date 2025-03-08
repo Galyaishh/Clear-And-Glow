@@ -1,0 +1,56 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/global_product_BTN_check"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        app:iconPadding="0dp"
+        app:iconGravity="textEnd"
+        app:icon="@drawable/ic_check"
+        app:backgroundTint="@color/pink"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        />
+    <!-- 🔍 Search Bar -->
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/global_product_ET_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_below="@id/global_product_BTN_check"
+        android:background="@android:drawable/editbox_background"
+        android:hint="Search product..."
+        android:inputType="text"
+        android:padding="10dp"
+        android:shadowColor="@color/pink"
+        android:singleLine="true" />
+
+    <!-- 🛒 Horizontal Categories -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewCategories"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/global_product_ET_search"
+        android:layout_marginBottom="8dp"
+        android:clipToPadding="false"
+        android:overScrollMode="never"
+        android:paddingVertical="8dp"
+        android:scrollbars="none"
+        tools:listitem="@layout/product_category_item" />
+
+    <!-- 📦 Global Products List -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/global_product_RV_products"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/recyclerViewCategories"
+        tools:listitem="@layout/product_item" />
+</RelativeLayout>

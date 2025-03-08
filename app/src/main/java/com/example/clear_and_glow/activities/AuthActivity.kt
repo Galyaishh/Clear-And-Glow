@@ -7,6 +7,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.clear_and_glow.databinding.ActivityAuthBinding
 import com.example.clear_and_glow.utilities.AuthManager
+import com.example.clear_and_glow.utilities.FirestoreManager
 import com.google.firebase.auth.FirebaseUser
 
 class AuthActivity : AppCompatActivity() {
@@ -19,8 +20,11 @@ class AuthActivity : AppCompatActivity() {
         binding = ActivityAuthBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+//        FirestoreManager.getInstance().addSampleProductsToGlobal()
         authManager = AuthManager.getInstance(this)
 
+        authManager.signOut()
         // If user is already logged in, go to MainActivity
         if (authManager.isUserLoggedIn()) {
             navigateToMain()

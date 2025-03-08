@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.MyProductsFragment">
+
+    <!-- Back Button -->
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/product_list_IMG_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_back"
+        android:contentDescription="Back"
+        android:layout_margin="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <!-- Title Header -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/product_list_TXT_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="My Products"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toEndOf="@id/product_list_IMG_back"
+        app:layout_constraintEnd_toStartOf="@id/product_list_IMG_add"
+        app:layout_constraintBottom_toBottomOf="@id/product_list_IMG_back"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"/>
+
+    <!-- Plus Button (Add Product) -->
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/product_list_IMG_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_plus"
+        android:contentDescription="Add Product"
+        android:layout_margin="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+
+    <!-- No Products Message -->
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/product_list_LBL_empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/there_s_no_products_yet"
+        android:gravity="center"
+        android:visibility="invisible"
+        android:textSize="18sp"
+        android:padding="40dp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/product_list_IMG_back"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+    <!-- RecyclerView for Product List -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/product_RV_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_margin="5dp"
+        tools:listitem="@layout/product_item"
+        app:layout_constraintTop_toBottomOf="@id/product_list_IMG_back"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

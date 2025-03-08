@@ -18,7 +18,7 @@ data class User(
         fun lastName(lastName: String) = apply { this.lastName = lastName }
         fun email(email: String) = apply { this.email = email }
         fun dob(dob: String) = apply { this.dob = dob }
-        fun uid(uid: String) = apply { this.uid = uid } // נוסיף UID
+        fun uid(uid: String) = apply { this.uid = uid }
 
         fun build() = User(firstName, lastName, email, dob, uid)
     }

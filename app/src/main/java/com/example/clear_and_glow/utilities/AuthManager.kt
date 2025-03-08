@@ -3,6 +3,9 @@ package com.example.clear_and_glow.utilities
 import android.content.Context
 import android.content.Intent
 import com.example.clear_and_glow.R
+import com.example.clear_and_glow.interfaces.FirestoreCallback
+import com.example.clear_and_glow.interfaces.UserCallback
+import com.example.clear_and_glow.models.User
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -10,6 +13,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import com.example.clear_and_glow.utilities.capitalizeFirstLetter
 
 class AuthManager private constructor(context: Context) {
 
@@ -63,9 +67,51 @@ class AuthManager private constructor(context: Context) {
                 firebaseAuth.signInWithCredential(credential)
                     .addOnCompleteListener { authTask ->
                         if (authTask.isSuccessful) {
-                            callback.onSuccess(firebaseAuth.currentUser)
+                            val user = firebaseAuth.currentUser
+                            if (user != null) {
+                                val firestoreManager = FirestoreManager.getInstance()
+                                firestoreManager.getUser(
+                                    user.uid,
+                                    object : UserCallback {
+                                        override fun onSuccess(user: User) {
+                                            // User exists in Firestore
+                                            callback.onSuccess(firebaseAuth.currentUser)
+                                        }
+
+                                        override fun onFailure(errorMessage: String) {
+                                            //User does not exist in database
+                                            val newUser = User.Builder()
+                                                .firstName(
+                                                    user.displayName?.substringBefore(" ")?.capitalizeFirstLetter() ?: ""
+                                                )
+                                                .lastName(
+                                                    user.displayName?.substringAfter(" ")?.capitalizeFirstLetter() ?: ""
+                                                )
+                                                .email(user.email ?: "")
+                                                .uid(user.uid)
+                                                .build()
+
+                                            firestoreManager.saveUser(
+                                                user.uid,
+                                                newUser,
+                                                object : FirestoreCallback {
+                                                    override fun onSuccess() {
+                                                        callback.onSuccess(user)
+                                                    }
+
+                                                    override fun onFailure(errorMessage: String) {
+                                                        callback.onFailure("Failed to save user: $errorMessage")
+                                                    }
+                                                })
+                                        }
+                                    })
+                            } else {
+                                callback.onFailure("Google Sign-In failed: User is null")
+                            }
                         } else {
-                            callback.onFailure(authTask.exception?.message ?: "Google sign-in failed")
+                            callback.onFailure(
+                                authTask.exception?.message ?: "Google sign-in failed"
+                            )
                         }
                     }
             } ?: callback.onFailure("Google Sign-In failed: ID token is null")
@@ -73,6 +119,7 @@ class AuthManager private constructor(context: Context) {
             callback.onFailure("Google Sign-In error: ${e.message}")
         }
     }
+
 
     fun createUser(email: String, password: String, callback: AuthCallback) {
         firebaseAuth.createUserWithEmailAndPassword(email, password)
@@ -94,4 +141,5 @@ class AuthManager private constructor(context: Context) {
         fun onSuccess(currentUser: FirebaseUser?)
         fun onFailure(errorMessage: String)
     }
+
 }

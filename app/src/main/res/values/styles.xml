@@ -11,4 +11,10 @@
         <item name="cornerSize">60%</item> <!-- Makes it fully rounded -->
     </style>
 
+    <!-- ShapeableImageView-->
+    <style name="circleImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
 </resources>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:orientation="vertical"
+    android:gravity="center"
+    >
+
+
+<com.google.android.material.button.MaterialButton
+    android:id="@+id/categories_BTN_item"
+    android:layout_width="45dp"
+    android:layout_height="45dp"
+    android:backgroundTint="@color/pink"
+    android:insetTop="0dp"
+    android:insetBottom="0dp"
+    app:icon="@drawable/ic_products"
+    app:iconSize="25dp"
+    app:iconTint="@color/black"
+    app:iconGravity="textEnd"
+    app:iconPadding="0dp"
+    app:rippleColor="@color/light_gray"
+    />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/categories_TXT_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Cleanser"
+        android:textSize="14sp"
+        android:textColor="@android:color/black"
+        android:gravity="center"
+        android:paddingTop="4dp"/>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:layout_width="wrap_content"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    android:orientation="vertical"-->
+<!--    android:gravity="center"-->
+<!--    android:padding="8dp">-->
+
+<!--    &lt;!&ndash; Circular Background for Icon &ndash;&gt;-->
+<!--    <androidx.cardview.widget.CardView-->
+<!--        android:layout_width="50dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:radius="70dp"-->
+<!--        app:cardCornerRadius="60dp"-->
+<!--        android:elevation="10dp"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:backgroundTint="@color/pink">-->
+
+<!--        <androidx.appcompat.widget.AppCompatImageView-->
+<!--            android:id="@+id/categoryImage"-->
+<!--            android:layout_width="40dp"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:scaleType="centerInside"-->
+<!--            android:src="@drawable/ic_products" />-->
+<!--    </androidx.cardview.widget.CardView>-->
+
+<!--    &lt;!&ndash; Category Name &ndash;&gt;-->
+<!--    <TextView-->
+<!--        android:id="@+id/categoryText"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Cleanser"-->
+<!--        android:textSize="14sp"-->
+<!--        android:textColor="@android:color/black"-->
+<!--        android:gravity="center"-->
+<!--        android:paddingTop="4dp"/>-->
+<!--</LinearLayout>-->

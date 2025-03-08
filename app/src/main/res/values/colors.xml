@@ -4,6 +4,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="light_pink">#FFF8F8</color>
     <color name="pink">#EF9A9A</color>
+    <color name="selector_bottom_nav">#000000</color>
+    <color name="light_gray">#CFCFCF</color>
 
 
 </resources>
