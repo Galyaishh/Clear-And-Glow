@@ -26,9 +26,9 @@
 
     <fragment
         android:id="@+id/myProductsFragment"
-        android:name="com.example.clear_and_glow.fragments.MyProductsFragment"
+        android:name="com.example.clear_and_glow.fragments.ProductsFragment"
         android:label="Products"
-        tools:layout="@layout/fragment_my_products"/>
+        tools:layout="@layout/fragment_products"/>
 
 
 </navigation>

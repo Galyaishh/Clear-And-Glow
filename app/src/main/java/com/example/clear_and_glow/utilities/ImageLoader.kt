@@ -15,7 +15,7 @@ class ImageLoader private constructor(context: Context) {
     private val contextRef = WeakReference(context.applicationContext) // Use app context to avoid memory leaks
 
     fun loadImage(
-        source: Any, // Can be URL, Drawable, URI, or Bitmap
+        source: Any,
         imageView: ImageView,
         placeholder: Int = R.drawable.unavailable_photo
     ) {

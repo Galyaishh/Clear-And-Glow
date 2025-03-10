@@ -1,5 +1,6 @@
 package com.example.clear_and_glow.models
 
+import android.util.Log
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -11,22 +12,24 @@ data class Product(
     val category: String = "",
     val skinType: String? = null,
     val ingredients: List<String> = emptyList(),
-    val openingDate: String? = null,  // New: When the user starts using the product
+    var openingDate: String? = null,  // New: When the user starts using the product
     val shelfLifeMonths: Int = 6, // Default: 6 months
     val barcode: String? = null,
     var isCollapsed: Boolean = false
 ) {
     fun toggleCollapse() = apply { this.isCollapsed = !this.isCollapsed }
 
-    // Automatically calculates expiry date based on the opening date
     fun calculateExpiryDate(): String? {
-        return openingDate?.let { date ->
-            val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-            val openLocalDate = LocalDate.parse(date, formatter)
-            val expiryDate = openLocalDate.plusMonths(shelfLifeMonths.toLong())
-            expiryDate.format(formatter)
+        return try {
+            val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+            val localDate = LocalDate.parse(openingDate, formatter)
+            localDate.plusMonths(6).format(formatter)
+        } catch (e: Exception) {
+            Log.e("DateParsing", "Invalid date format: $openingDate", e)
+            null
         }
     }
+
 
     class Builder {
         private var id: String = ""

@@ -12,30 +12,31 @@
         android:id="@+id/routines_list_IMG_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_back"
-        android:contentDescription="Back"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentTop="true"
+        android:contentDescription="Back"
+        android:src="@drawable/ic_back"
+        android:visibility="invisible" />
 
     <!-- Title Header -->
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/routines_list_TXT_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="My Routines"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="@color/black"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="16dp" />
+        android:layout_marginStart="16dp"
+        android:text="My Routines"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <!-- Container for Morning & Evening Routines -->
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/routines_list_IMG_back"
-        android:orientation="vertical"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="16dp"
+        android:orientation="vertical">
 
         <!-- Morning Routine Section -->
         <FrameLayout
@@ -44,13 +45,13 @@
             android:layout_height="0dp"
             android:layout_weight="1">
 
-            <LinearLayout
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:padding="8dp">
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/routines_LBL_morning"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -58,32 +59,59 @@
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/routines_BTN_edit_morning"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="end"
-                    android:src="@drawable/ic_edit"
-                    android:contentDescription="Edit Morning Routine" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/routines_BTN_plus_morning"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentStart="true"
+                        android:contentDescription="Add to morning routine"
+                        android:src="@drawable/ic_plus"
+                        android:visibility="invisible"/>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/routines_BTN_edit_morning"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentEnd="true"
+                        android:contentDescription="Edit morning routine"
+                        android:src="@drawable/ic_edit" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/routines_BTN_check_morning"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentEnd="true"
+                        android:contentDescription="Submit morning routine"
+                        android:src="@drawable/ic_check"
+                        android:visibility="gone" />
+
+
+                </RelativeLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/routines_RV_morning"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    tools:listitem="@layout/routine_product_item" />
+                    tools:listitem="@layout/product_item" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/morning_list_LBL_empty"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/there_s_no_products_yet"
                     android:gravity="center"
-                    android:visibility="gone"
-                    android:textSize="18sp"
                     android:padding="40dp"
-                    android:textColor="@color/black" />
-            </LinearLayout>
+                    android:text="@string/there_s_no_products_yet"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:visibility="gone" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
         </FrameLayout>
 
         <!-- Evening Routine Section -->
@@ -99,39 +127,65 @@
                 android:orientation="vertical"
                 android:padding="8dp">
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/routines_LBL_evening"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Evening"
                     android:textSize="18sp"
                     android:textStyle="bold" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/routines_BTN_edit_evening"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="end"
-                    android:src="@drawable/ic_edit"
-                    android:contentDescription="Edit Evening Routine" />
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/routines_BTN_plus_evening"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentStart="true"
+                        android:contentDescription="Add to morning routine"
+                        android:src="@drawable/ic_plus"
+                        android:visibility="invisible"/>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/routines_BTN_edit_evening"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentEnd="true"
+                        android:contentDescription="Edit evening routine"
+                        android:src="@drawable/ic_edit" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/routines_BTN_check_evening"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentEnd="true"
+                        android:contentDescription="Submit evening routine"
+                        android:src="@drawable/ic_check"
+                        android:visibility="gone" />
+
+
+                </RelativeLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/routines_RV_evening"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    tools:listitem="@layout/routine_product_item" />
+                    tools:listitem="@layout/product_item" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/evening_list_LBL_empty"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/there_s_no_products_yet"
                     android:gravity="center"
-                    android:visibility="gone"
-                    android:textSize="18sp"
                     android:padding="40dp"
-                    android:textColor="@color/black" />
+                    android:text="@string/there_s_no_products_yet"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:visibility="gone" />
             </LinearLayout>
         </FrameLayout>
 

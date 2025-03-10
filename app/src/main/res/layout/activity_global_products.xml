@@ -35,7 +35,7 @@
 
     <!-- 🛒 Horizontal Categories -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewCategories"
+        android:id="@+id/global_product_RV_categories"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/global_product_ET_search"
@@ -51,6 +51,6 @@
         android:id="@+id/global_product_RV_products"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/recyclerViewCategories"
+        android:layout_below="@id/global_product_RV_categories"
         tools:listitem="@layout/product_item" />
 </RelativeLayout>

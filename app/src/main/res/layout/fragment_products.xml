@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.MyProductsFragment">
+    tools:context=".fragments.ProductsFragment">
 
     <!-- Back Button -->
     <androidx.appcompat.widget.AppCompatImageView
@@ -14,8 +14,8 @@
         android:src="@drawable/ic_back"
         android:contentDescription="Back"
         android:layout_margin="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:layout_alignParentStart="true"
+        android:visibility="gone"/>
 
     <!-- Title Header -->
     <androidx.appcompat.widget.AppCompatTextView
@@ -26,11 +26,9 @@
         android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="@color/black"
-        app:layout_constraintStart_toEndOf="@id/product_list_IMG_back"
-        app:layout_constraintEnd_toStartOf="@id/product_list_IMG_add"
-        app:layout_constraintBottom_toBottomOf="@id/product_list_IMG_back"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"/>
+        android:layout_marginTop="16dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
     <!-- Plus Button (Add Product) -->
     <androidx.appcompat.widget.AppCompatImageView
@@ -40,8 +38,22 @@
         android:src="@drawable/ic_plus"
         android:contentDescription="Add Product"
         android:layout_margin="16dp"
+        android:layout_alignParentEnd="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/product_list_IMG_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_check"
+        android:contentDescription="Add Products"
+        android:layout_margin="16dp"
+        android:visibility="invisible"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="16dp"
+        android:layout_alignParentEnd="true"
+        />
 
 
     <!-- No Products Message -->
@@ -55,19 +67,43 @@
         android:textSize="18sp"
         android:padding="40dp"
         android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@id/product_list_IMG_back"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        android:layout_centerVertical="true"
+        />
 
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/product_ET_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_below="@id/product_list_TXT_title"
+        android:background="@android:drawable/editbox_background"
+        android:hint="Search product..."
+        android:inputType="text"
+        android:padding="10dp"
+        android:shadowColor="@color/pink"
+        android:singleLine="true" />
+
+
+    <!-- 🛒 Horizontal Categories -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/product_RV_Categories"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/product_ET_search"
+        android:clipToPadding="false"
+        android:overScrollMode="never"
+        android:paddingVertical="8dp"
+        android:scrollbars="none"
+        tools:listitem="@layout/product_category_item" />
 
     <!-- RecyclerView for Product List -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/product_RV_list"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
+        android:layout_height="match_parent"
         android:layout_margin="5dp"
+        android:layout_below="@id/product_RV_Categories"
         tools:listitem="@layout/product_item"
-        app:layout_constraintTop_toBottomOf="@id/product_list_IMG_back"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

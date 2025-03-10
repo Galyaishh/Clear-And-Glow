@@ -10,6 +10,8 @@ import com.example.clear_and_glow.models.Product
 import com.example.clear_and_glow.models.ProductCategory
 import com.example.clear_and_glow.models.Routine
 import com.example.clear_and_glow.models.User
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -100,6 +102,27 @@ class FirestoreManager private constructor() {
         }.addOnFailureListener { e -> callback.onFailure(e.message ?: "Error loading categories") }
     }
 
+    fun updateProductDates(userId: String, product: Product): Task<Void> {
+        val userProductRef = db.collection(Constants.DB.USER_REF).document(userId)
+            .collection(Constants.DB.PRODUCT_REF).document(product.id)
+
+        val userRoutineRef = db.collection(Constants.DB.USER_REF).document(userId)
+            .collection(Constants.DB.ROUTINE_REF).document(product.id)
+
+        val updateProductTask = userProductRef.update(mapOf(
+            "openingDate" to product.openingDate,
+            "closingDate" to product.calculateExpiryDate()
+        ))
+
+        val updateRoutineTask = userRoutineRef.update(mapOf(
+            "openingDate" to product.openingDate,
+            "closingDate" to product.calculateExpiryDate()
+        ))
+
+        return Tasks.whenAll(updateProductTask, updateRoutineTask)
+    }
+
+
     fun addProductToUser(userId: String, product: Product, callback: FirestoreCallback) {
         val userProductRef = db.collection(Constants.DB.USER_REF).document(userId)
             .collection(Constants.DB.PRODUCT_REF).document(product.id)
@@ -120,7 +143,7 @@ class FirestoreManager private constructor() {
             .collection(Constants.DB.PRODUCT_REF)
 
         products.forEach { product ->
-            val newProductRef = userProductsRef.document()
+            val newProductRef = userProductsRef.document(product.id)
             batch.set(newProductRef, product)
         }
         batch.commit()
@@ -130,6 +153,7 @@ class FirestoreManager private constructor() {
                     e.message ?: "Failed to add products"
                 )
             }
+    }
 
 //        fun getUserProducts(userId: String, callback: ProductListCallback) {
 //            db.collection(Constants.DB.USER_REF).document(userId).collection("products").get()
@@ -147,17 +171,17 @@ class FirestoreManager private constructor() {
 //        }
 
 
-        fun saveRoutine(userId: String, routine: Routine, callback: FirestoreCallback) {
-            db.collection(Constants.DB.USER_REF).document(userId)
-                .collection(Constants.DB.ROUTINE_REF)
-                .document(routine.id).set(routine)
-                .addOnSuccessListener { callback.onSuccess() }
-                .addOnFailureListener { e ->
-                    callback.onFailure(
-                        e.message ?: "Failed to save routine"
-                    )
-                }
-        }
+//        fun saveRoutine(userId: String, routine: Routine, callback: FirestoreCallback) {
+//            db.collection(Constants.DB.USER_REF).document(userId)
+//                .collection(Constants.DB.ROUTINE_REF)
+//                .document(routine.id).set(routine)
+//                .addOnSuccessListener { callback.onSuccess() }
+//                .addOnFailureListener { e ->
+//                    callback.onFailure(
+//                        e.message ?: "Failed to save routine"
+//                    )
+//                }
+//        }
 
 //        fun getUserRoutines(userId: String, callback: RoutinesCallback) {
 //            db.collection(Constants.DB.USER_REF).document(userId)
@@ -172,9 +196,6 @@ class FirestoreManager private constructor() {
 //                    )
 //                }
 //        }
-
-
-    }
 
 
     fun addSampleProductsToGlobal() {
@@ -219,7 +240,11 @@ class FirestoreManager private constructor() {
                 brand = "Estée Lauder",
                 skinType = "All",
                 category = "Serum",
-                ingredients = listOf("Bifida Ferment Lysate", "Tripeptide-32", "Sodium Hyaluronate"),
+                ingredients = listOf(
+                    "Bifida Ferment Lysate",
+                    "Tripeptide-32",
+                    "Sodium Hyaluronate"
+                ),
                 shelfLifeMonths = 18,
                 barcode = "027131953728"
             ),
@@ -253,6 +278,7 @@ class FirestoreManager private constructor() {
                 override fun onSuccess() {
                     println("Product added: ${product.name} (${product.category})")
                 }
+
                 override fun onFailure(errorMessage: String) {
                     println("Error adding product: ${product.name}, Error: $errorMessage")
                 }
@@ -275,22 +301,48 @@ class FirestoreManager private constructor() {
             }
     }
 
+    fun saveRoutine(userId: String, routine: Routine, callback: FirestoreCallback) {
+        val routineId = routine.id.ifEmpty {
+            db.collection(Constants.DB.USER_REF).document(userId)
+                .collection(Constants.DB.ROUTINE_REF).document().id
+        }
+
+        val routineWithId = routine.copy(id = routineId)
+
+        db.collection(Constants.DB.USER_REF).document(userId)
+            .collection(Constants.DB.ROUTINE_REF).document(routineId)
+            .set(routineWithId)
+            .addOnSuccessListener { callback.onSuccess() }
+            .addOnFailureListener { e -> callback.onFailure(e.message ?: "Failed to save routine") }
+    }
+
     fun getUserRoutines(userId: String, callback: RoutinesCallback) {
         db.collection(Constants.DB.USER_REF).document(userId)
             .collection(Constants.DB.ROUTINE_REF).get()
             .addOnSuccessListener { documents ->
-                val routinesList = documents.mapNotNull { it.toObject(Routine::class.java) }
+                val routinesList =
+                    documents.mapNotNull { it.toObject(Routine::class.java).copy(id = it.id) }
                 callback.onSuccess(routinesList)
             }
             .addOnFailureListener { e ->
-                callback.onFailure(
-                    e.message ?: "Failed to load routines"
-                )
+                callback.onFailure(e.message ?: "Failed to load routines")
             }
     }
 
 
-
+//    fun getUserRoutines(userId: String, callback: RoutinesCallback) {
+//        db.collection(Constants.DB.USER_REF).document(userId)
+//            .collection(Constants.DB.ROUTINE_REF).get()
+//            .addOnSuccessListener { documents ->
+//                val routinesList = documents.mapNotNull { it.toObject(Routine::class.java) }
+//                callback.onSuccess(routinesList)
+//            }
+//            .addOnFailureListener { e ->
+//                callback.onFailure(
+//                    e.message ?: "Failed to load routines"
+//                )
+//            }
+//    }
 
 
 }

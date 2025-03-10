@@ -19,4 +19,5 @@
     <string name="skin_type">Skin type:</string>
     <string name="expired_date">expired_date</string>
     <string name="there_s_no_products_yet">There\'s no products yet</string>
+    <string name="drag_handle_for_reordering">Drag handle for reordering</string>
 </resources>

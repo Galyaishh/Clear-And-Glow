@@ -132,6 +132,11 @@ class AuthManager private constructor(context: Context) {
             }
     }
 
+    fun getUser(): FirebaseUser? {
+        return firebaseAuth.currentUser
+    }
+
+
     fun signOut() {
         firebaseAuth.signOut()
         googleSignInClient.signOut()
