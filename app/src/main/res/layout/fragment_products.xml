@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".fragments.ProductsFragment">
 
-    <!-- Back Button -->
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/product_list_IMG_back"
         android:layout_width="wrap_content"
@@ -17,7 +16,6 @@
         android:layout_alignParentStart="true"
         android:visibility="gone"/>
 
-    <!-- Title Header -->
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/product_list_TXT_title"
         android:layout_width="wrap_content"
@@ -30,7 +28,6 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
-    <!-- Plus Button (Add Product) -->
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/product_list_IMG_add"
         android:layout_width="wrap_content"
@@ -56,7 +53,6 @@
         />
 
 
-    <!-- No Products Message -->
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/product_list_LBL_empty"
         android:layout_width="match_parent"
@@ -83,8 +79,6 @@
         android:shadowColor="@color/pink"
         android:singleLine="true" />
 
-
-    <!-- 🛒 Horizontal Categories -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/product_RV_Categories"
         android:layout_width="match_parent"
@@ -94,9 +88,11 @@
         android:overScrollMode="never"
         android:paddingVertical="8dp"
         android:scrollbars="none"
+        android:focusable="true"
+        android:clickable="true"
         tools:listitem="@layout/product_category_item" />
 
-    <!-- RecyclerView for Product List -->
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/product_RV_list"
         android:layout_width="match_parent"

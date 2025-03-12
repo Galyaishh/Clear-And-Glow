@@ -23,12 +23,19 @@ class ProductsViewModel : ViewModel() {
     private val _globalProducts = MutableLiveData<List<Product>>()
     val globalProducts: LiveData<List<Product>> get() = _globalProducts
 
+    private var originalUserProducts: List<Product> = listOf()
+    private var originalGlobalProducts: List<Product> = listOf()
+
+
     private val _categories = MutableLiveData<List<ProductCategory>>()
     val categories: LiveData<List<ProductCategory>> get() = _categories
+
+
 
     fun loadUserProducts(userId: String) {
         firestoreManager.getUserProducts(userId, object : ProductListCallback {
             override fun onSuccess(products: List<Product>) {
+                originalUserProducts = products
                 _userProducts.value = products
             }
 
@@ -38,22 +45,11 @@ class ProductsViewModel : ViewModel() {
         })
     }
 
-//    fun loadGlobalProducts() {
-//        firestoreManager.listenForGlobalProductsUpdates(object : ProductListCallback {
-//            override fun onSuccess(products: List<Product>) {
-//                _globalProducts.value = products
-//            }
-//
-//            override fun onFailure(errorMessage: String) {
-//                Log.e("ProductsViewModel", "Failed to fetch global products: $errorMessage")
-//            }
-//        })
-//    }
-
 
     fun loadGlobalProducts() {
         firestoreManager.getAllGlobalProducts(object : ProductListCallback {
             override fun onSuccess(products: List<Product>) {
+                originalGlobalProducts = products
                 _globalProducts.value = products
             }
 
@@ -78,6 +74,7 @@ class ProductsViewModel : ViewModel() {
 //                Log.e("Firestore", "Failed to load product images", it)
 //            }
 //    }
+
 
     fun loadCategories() {
         firestoreManager.getAllCategories(object : ProductCategoryListCallback {
@@ -110,7 +107,7 @@ class ProductsViewModel : ViewModel() {
     fun refreshProducts() {
         firestoreManager.getAllGlobalProducts(object : ProductListCallback {
             override fun onSuccess(products: List<Product>) {
-                _globalProducts.value = products // מעדכן את LiveData עם המוצרים החדשים
+                _globalProducts.value = products
             }
 
             override fun onFailure(errorMessage: String) {
@@ -118,9 +115,6 @@ class ProductsViewModel : ViewModel() {
             }
         })
     }
-
-
-
 
     fun updateProductDates(userId: String, product: Product) {
         product.openingDate = TimeFormater().getFormattedDate()
@@ -133,29 +127,38 @@ class ProductsViewModel : ViewModel() {
         }
     }
 
-    fun filterProductsByCategory(category: ProductCategory, isGlobal: Boolean) {
-        val products = if (isGlobal) _globalProducts.value else _userProducts.value
-        val filteredProducts = if (category.name == "All") {
-            products
+
+    fun filterProductsByCategory(category: ProductCategory?, isGlobal: Boolean) {
+        val allProducts = if (isGlobal) originalGlobalProducts else originalUserProducts
+        val filteredProducts = if (category == null) {
+            allProducts
         } else {
-            products?.filter { it.category == category.name } ?: emptyList()
+            allProducts.filter { it.category == category.name }
         }
 
         if (isGlobal) {
-            _globalProducts.value = filteredProducts?.sortedBy { it.name }
+            _globalProducts.value = filteredProducts.sortedBy { it.name }
         } else {
-            _userProducts.value = filteredProducts?.sortedBy { it.name }
+            _userProducts.value = filteredProducts.sortedBy { it.name }
         }
     }
+
 
     fun searchProducts(query: String, isGlobal: Boolean) {
-        val products = if (isGlobal) _globalProducts.value else _userProducts.value
-        val filteredProducts =
-            products?.filter { it.name.contains(query, ignoreCase = true) } ?: emptyList()
-        if (isGlobal) {
-            _globalProducts.value = filteredProducts
+        val filteredList = if (query.isEmpty()) {
+            if (isGlobal) originalGlobalProducts else originalUserProducts
         } else {
-            _userProducts.value = filteredProducts
+            val sourceList = if (isGlobal) originalGlobalProducts else originalUserProducts
+            sourceList.filter { product ->
+                product.name.contains(query, ignoreCase = true) ||
+                        product.brand.contains(query, ignoreCase = true)
+            }
+        }
+        if (isGlobal) {
+            _globalProducts.value = filteredList
+        } else {
+            _userProducts.value = filteredList
         }
     }
+
 }

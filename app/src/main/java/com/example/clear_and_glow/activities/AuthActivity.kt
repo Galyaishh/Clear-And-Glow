@@ -28,8 +28,6 @@ class AuthActivity : AppCompatActivity() {
 
         authManager = AuthManager.getInstance(this)
 
-
-        // If user is already logged in, go to MainActivity
         if (authManager.isUserLoggedIn()) {
             navigateToMain()
             return

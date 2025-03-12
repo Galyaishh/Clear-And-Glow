@@ -4,17 +4,17 @@ import com.example.clear_and_glow.R
 
 data class ProductCategory(
     val name: String = "",
-    val iconResId: Int = 0
+    val iconResId: Int = R.drawable.unavailable_photo
 ) {
-    constructor() : this("", 0)
+    constructor() : this("", R.drawable.unavailable_photo)
 
     companion object {
         private val categoryIcons = mapOf(
-            "Cleanser" to R.drawable.unavailable_photo,
-            "Serum" to R.drawable.unavailable_photo,
-            "SPF" to R.drawable.unavailable_photo,
-            "Moisturizer" to R.drawable.unavailable_photo,
-            "Eye Cream" to R.drawable.unavailable_photo
+            "Cleanser" to R.drawable.ic_cleanser,
+            "Serum" to R.drawable.ic_serum,
+            "SPF" to R.drawable.ic_sunscreen,
+            "Moisturizer" to R.drawable.ic_moisturizer,
+            "Eye Cream" to R.drawable.ic_eye_cream
         )
 
         fun getCategory(name: String): ProductCategory {

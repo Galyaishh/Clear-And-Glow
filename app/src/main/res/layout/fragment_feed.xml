@@ -18,16 +18,44 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
+
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal">
 
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/feed_BTN_logout"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    app:icon="@drawable/ic_logout"
+                    android:layout_gravity="center"
+                    app:iconGravity="textStart"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:padding="0dp"
+                    app:iconPadding="0dp"
+                    app:iconSize="25dp"
+                    app:iconTint="@color/black"
+                    android:backgroundTint="@color/white"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_margin="5dp"
+                    tools:text="Logout"
+                    android:clickable="true"
+                    app:rippleColor="@color/light_gray"
+                    />
+
+
                 <!-- Profile Button with Camera Overlay -->
                 <FrameLayout
                     android:layout_width="55dp"
                     android:layout_height="55dp"
-                    android:layout_gravity="center_vertical">
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="5dp">
+
 
                     <!-- User Profile Image -->
                     <de.hdodenhof.circleimageview.CircleImageView
@@ -43,19 +71,20 @@
                         app:iconGravity="textTop"
                         app:iconPadding="0dp"
                         app:iconSize="35dp"
-                        app:iconTint="@color/black" />
+                        app:iconTint="@color/black"
+                       />
 
                     <!-- Camera Icon (Overlay on Bottom-Right) -->
                     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
                         android:id="@+id/feed_BTN_camera"
                         android:layout_width="10dp"
                         android:layout_height="10dp"
-                        app:collapsedSize="20dp"
+                        app:collapsedSize="22dp"
                         android:layout_gravity="top|start"
-                        android:layout_marginEnd="4dp"
-                        android:layout_marginBottom="4dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginBottom="5dp"
                         android:padding="0dp"
-                        android:backgroundTint="@color/pink"
+                        android:backgroundTint="@color/light_pink"
                         app:icon="@drawable/ic_camera"
                         app:iconSize="18dp"/>
                 </FrameLayout>

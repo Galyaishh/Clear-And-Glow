@@ -32,6 +32,7 @@ class ProductsFragment : Fragment() {
     private var categoriesAdapter = ProductCategoryAdapter(emptyList()) { selectedCategory ->
         filterProductsByCategory(selectedCategory, isGlobalView)
     }
+    private var selectedCategory: ProductCategory? = null
 
     private var isGlobalView = false
     override fun onCreateView(
@@ -62,14 +63,6 @@ class ProductsFragment : Fragment() {
                 updateUi(products)
             }
         }
-
-//        productsViewModel.globalProducts.observe(viewLifecycleOwner) { products ->
-//            if (isGlobalView) {
-//                Log.d("ProductsFragment", "Loaded ${products.size} global products")
-//                productsAdapter.updateList(products)
-//            }
-//        }
-
 
         productsViewModel.userProducts.observe(viewLifecycleOwner) { products ->
             if (!isGlobalView) {
@@ -130,7 +123,7 @@ class ProductsFragment : Fragment() {
             binding.productListIMGBack.visibility = View.VISIBLE
             productsAdapter = ProductsAdapter(
                 emptyList(),
-                onProductClick = { product -> productsAdapter.toggleSelection(product)},
+                onProductClick = { product -> productsAdapter.toggleSelection(product) },
                 isGlobal = true
             )
             productsViewModel.loadGlobalProducts()
@@ -210,225 +203,23 @@ class ProductsFragment : Fragment() {
         binding.productRVList.visibility = if (products.isEmpty()) View.GONE else View.VISIBLE
     }
 
-    private fun filterProductsByCategory(category: ProductCategory,isGlobalView: Boolean) {
 
-        productsViewModel.filterProductsByCategory(category, isGlobalView)
-
-
-//        val productsToFilter =
-//            if (isGlobalView) productsViewModel.globalProducts.value else productsViewModel.userProducts.value
-//
-//        val filteredProducts = if (category.name == "All") {
-//            productsToFilter
-//        } else {
-//            productsToFilter?.filter { it.category == category.name }
-//        }
-//        productsAdapter.updateList(filteredProducts!!)
+    private fun filterProductsByCategory(category: ProductCategory, isGlobalView: Boolean) {
+        selectedCategory = if (selectedCategory == category) null else category
+        productsViewModel.filterProductsByCategory(selectedCategory, isGlobalView)
+        categoriesAdapter.updateSelectedCategory(selectedCategory)
     }
 
 
     private fun setupSearchListener() {
         binding.productETSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 productsViewModel.searchProducts(s.toString(), isGlobalView)
             }
+
             override fun afterTextChanged(s: Editable?) {}
         })
     }
-
-
-
 }
-
-
-//class ProductsFragment : Fragment() {
-//
-//    private lateinit var binding: FragmentProductsBinding
-//    private lateinit var productsAdapter: ProductsAdapter
-//    private var categoriesAdapter = ProductCategoryAdapter(emptyList()) { selectedCategory ->
-//        filterProductsByCategory(selectedCategory)
-//    }
-//
-//    private val firestoreManager = FirestoreManager.getInstance()
-//    private lateinit var authManager: AuthManager
-//    private var allUserProducts: List<Product> = emptyList()
-//    private var allGlobalProducts: List<Product> = emptyList()
-//    private var isGlobalView: Boolean = false
-//
-//    override fun onCreateView(
-//        inflater: LayoutInflater, container: ViewGroup?,
-//        savedInstanceState: Bundle?
-//    ): View {
-//        binding = FragmentProductsBinding.inflate(inflater, container, false)
-//        authManager = AuthManager.getInstance(requireContext())
-//
-//        setupRecyclerView()
-//        initViews()
-//
-//        return binding.root
-//    }
-//
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//        loadUserProducts()
-//        loadCategories()
-//        loadGlobalProducts()
-//    }
-//
-//    private fun setupRecyclerView() {
-//        productsAdapter = ProductsAdapter(emptyList(), { product ->
-//            Toast.makeText(requireContext(), "Clicked on: ${product.name}", Toast.LENGTH_SHORT)
-//                .show()
-//        }, isGlobalView)
-//
-//        binding.productRVCategories.apply {
-//            layoutManager =
-//                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-//            adapter = categoriesAdapter
-//        }
-//
-//        binding.productRVList.apply {
-//            layoutManager = LinearLayoutManager(requireContext())
-//            adapter = productsAdapter
-//        }
-//    }
-//
-//    private fun initViews() {
-//        binding.productListIMGBack.setOnClickListener {
-//            isGlobalView = false
-//            changeView()
-//        }
-//
-//        binding.productListIMGAdd.setOnClickListener {
-//            isGlobalView = true
-//            changeView()
-//        }
-//
-//        binding.productListIMGSubmit.setOnClickListener {
-//            addGlobalProductsToUser()
-//        }
-//    }
-//
-//    private fun loadUserProducts() {
-//        val userId = authManager.getCurrentUserUid() ?: return
-//
-//        firestoreManager.getUserProducts(userId, object : ProductListCallback {
-//            override fun onSuccess(products: List<Product>) {
-//                allUserProducts = products
-//                productsAdapter.updateList(allUserProducts)
-//                updateUi(allUserProducts)
-//            }
-//
-//            override fun onFailure(errorMessage: String) {
-//                Toast.makeText(
-//                    requireContext(),
-//                    "Failed to load products: $errorMessage",
-//                    Toast.LENGTH_SHORT
-//                ).show()
-//            }
-//        })
-//    }
-//
-//    private fun loadGlobalProducts() {
-//        firestoreManager.getAllGlobalProducts(object : ProductListCallback {
-//            override fun onSuccess(products: List<Product>) {
-//                allGlobalProducts = products
-//                productsAdapter.updateList(allGlobalProducts)
-//                binding.productRVList.visibility = View.VISIBLE
-//            }
-//
-//            override fun onFailure(errorMessage: String) {
-//                Toast.makeText(
-//                    requireContext(),
-//                    "Failed to load global products: $errorMessage",
-//                    Toast.LENGTH_SHORT
-//                ).show()
-//            }
-//        })
-//    }
-//
-//    private fun changeView() {
-//        if (isGlobalView) {
-//            binding.productListTXTTitle.text = "All Products"
-//            binding.productListIMGAdd.visibility = View.INVISIBLE
-//            binding.productListIMGSubmit.visibility = View.VISIBLE
-//            binding.productListIMGBack.visibility = View.VISIBLE
-//            productsAdapter = ProductsAdapter(emptyList(), {}, isGlobal = true)
-//            binding.productRVList.adapter = productsAdapter
-//            loadGlobalProducts()
-//            updateUi(allGlobalProducts)
-//        } else {
-//            binding.productListTXTTitle.text = "My Products"
-//            binding.productListIMGAdd.visibility = View.VISIBLE
-//            binding.productListIMGSubmit.visibility = View.INVISIBLE
-//            binding.productListIMGBack.visibility = View.INVISIBLE
-//            productsAdapter = ProductsAdapter(emptyList(), { product ->
-//                Toast.makeText(requireContext(), "Clicked on: ${product.name}", Toast.LENGTH_SHORT)
-//                    .show()
-//            }, isGlobal = false)
-//            binding.productRVList.adapter = productsAdapter
-//            loadUserProducts()
-//            updateUi(allUserProducts)
-//        }
-//    }
-//
-//
-//    private fun addGlobalProductsToUser() {
-//        val userId = authManager.getCurrentUserUid() ?: return
-//        val selectedProducts = productsAdapter.getSelectedProducts()
-//        if (selectedProducts.isEmpty()) {
-//            Toast.makeText(requireContext(), "Select at least one product", Toast.LENGTH_SHORT)
-//                .show()
-//            return
-//        }
-//
-//        firestoreManager.addProductsToUser(userId, selectedProducts, object :
-//            FirestoreCallback {
-//            override fun onSuccess() {
-//                Toast.makeText(requireContext(), "Products added successfully!", Toast.LENGTH_SHORT)
-//                    .show()
-//                isGlobalView = false
-//                changeView()
-//            }
-//
-//            override fun onFailure(errorMessage: String) {
-//                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
-//            }
-//        })
-//    }
-//
-//    private fun loadCategories() {
-//        firestoreManager.getAllCategories(object : ProductCategoryListCallback {
-//            override fun onSuccess(categories: List<ProductCategory>) {
-//                categoriesAdapter.updateList(categories)
-//            }
-//
-//            override fun onFailure(errorMessage: String) {
-//                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
-//            }
-//        })
-//    }
-//
-//    private fun filterProductsByCategory(category: ProductCategory) {
-//        val productsToFilter = if (isGlobalView) allGlobalProducts else allUserProducts
-//
-//        val filteredProducts = if (category.name == "All") {
-//            productsToFilter
-//        } else {
-//            productsToFilter.filter { it.category == category.name }
-//        }
-//        productsAdapter.updateList(filteredProducts)
-//    }
-//
-//    private fun updateUi(products: List<Product>) {
-//        if (products.isEmpty()) {
-//            binding.productListLBLEmpty.visibility = View.VISIBLE
-//            binding.productRVList.visibility = View.GONE
-//        } else {
-//            binding.productListLBLEmpty.visibility = View.GONE
-//            binding.productRVList.visibility = View.VISIBLE
-//        }
-//    }
-//}
-////}

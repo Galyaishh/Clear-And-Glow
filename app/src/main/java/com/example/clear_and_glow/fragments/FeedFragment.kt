@@ -93,9 +93,7 @@ class FeedFragment : Fragment() {
         binding.feedIMGProfile.setImageURI(authManager.getUser()?.photoUrl)
 
         updateUi()
-        Log.e("FeedFragment", "User ID is null, cannot initialize adapter")
     }
-
 
     private fun setupObservers() {
         feedViewModel.sharedRoutines.observe(viewLifecycleOwner) { sharedRoutines ->
@@ -103,27 +101,16 @@ class FeedFragment : Fragment() {
         }
     }
 
-
     private fun setupClickListeners() {
         binding.feedBTNCamera.setOnClickListener {
             pickImage.launch("image/*")
         }
+
+        binding.feedBTNLogout.setOnClickListener {
+            authManager.signOut()
+            requireActivity().finish()
+        }
     }
-
-
-//    private fun uploadProfilePicture(imageUri: Uri) {
-//        val userId = authManager.getCurrentUserUid() ?: return
-//
-//        storageManager.uploadProfilePicture(userId, imageUri) { imageUrl ->
-//            if (imageUrl != null) {
-//                updateUserProfilePicture(imageUrl)
-//            } else {
-//                Toast.makeText(requireContext(), "Failed to upload image.", Toast.LENGTH_SHORT).show()
-//            }
-//        }
-//        ImageLoader.getInstance().loadImage(userId.profilePicUrl, binding.feedIMGProfile)
-//
-//    }
 
     private fun uploadProfilePicture(imageUri: Uri) {
         val userId = authManager.getCurrentUserUid() ?: return
@@ -139,7 +126,6 @@ class FeedFragment : Fragment() {
                         ).show()
                         binding.feedIMGProfile.setImageURI(Uri.parse(imageUrl))
                     }
-
                     override fun onFailure(errorMessage: String) {
                         Toast.makeText(
                             requireContext(),
@@ -155,49 +141,6 @@ class FeedFragment : Fragment() {
         }
     }
 
-
-    fun updateUserProfilePicture(imageUrl: String) {
-        val userId = authManager.getCurrentUserUid() ?: return
-
-        firestoreManager.saveUserProfilePic(userId, imageUrl, object : FirestoreCallback {
-            override fun onSuccess() {
-                // ✅ Update UI
-                ImageLoader.getInstance().loadImage(imageUrl, binding.feedIMGProfile)
-                Toast.makeText(requireContext(), "Profile picture updated!", Toast.LENGTH_SHORT)
-                    .show()
-                binding.feedIMGProfile.setImageURI(Uri.parse(imageUrl))
-            }
-
-            override fun onFailure(errorMessage: String) {
-                Toast.makeText(
-                    requireContext(),
-                    "Failed to save profile picture.",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        })
-    }
-
-
-//    fun updateUserProfilePicture(imageUrl: String) {
-//        val userId = authManager.getCurrentUserUid() ?: return
-//
-//        firestoreManager.getUserProfile(userId) { user ->
-//            val updatedUser =
-//                user?.copy(profilePicUrl = imageUrl) ?: User(id = userId, profilePicUrl = imageUrl)
-//            firestoreService.saveUserProfile(updatedUser) { success ->
-//                if (success) {
-//                    loadUserProfile()
-//                    Toast.makeText(requireContext(), "Profile picture updated!", Toast.LENGTH_SHORT)
-//                        .show()
-//                } else {
-//                    Toast.makeText(requireContext(), "Failed to save profile picture.", Toast.LENGTH_SHORT)
-//                        .show()
-//                }
-//            }
-//        }
-//    }
-
     private fun updateUi() {
         val userName = authManager.getUserName()
         binding.feedTXTHello.text = getString(R.string.welcome_user, userName)
@@ -210,28 +153,5 @@ class FeedFragment : Fragment() {
         feedViewModel.toggleLike(userId, sharedRoutine, position)
     }
 
-//    override fun onResume() {
-//        super.onResume()
-//        refreshProfilePicture()
-//    }
-//
-//    private fun refreshProfilePicture() {
-//        val user = FirebaseAuth.getInstance().currentUser
-//        if (user != null) {
-//            FirebaseFirestore.getInstance().collection("users")
-//                .document(user.uid)
-//                .get()
-//                .addOnSuccessListener { snapshot ->
-//                    val updatedImageUrl = snapshot.getString("profileImageUrl")
-//                    if (!updatedImageUrl.isNullOrEmpty()) {
-//                        Glide.with(requireContext())
-//                            .load(updatedImageUrl)
-//                            .diskCacheStrategy(DiskCacheStrategy.NONE)
-//                            .skipMemoryCache(true)
-//                            .into(binding.feedIMGProfile)
-//                    }
-//                }
-//        }
-//    }
 
 }

@@ -6,6 +6,7 @@
     <color name="pink">#EF9A9A</color>
     <color name="selector_bottom_nav">#000000</color>
     <color name="light_gray">#CFCFCF</color>
-
+    <color name="selected_product_color">#CB9CA1</color>
+    <color name="selected_category_color">#9B0000</color>"
 
 </resources>

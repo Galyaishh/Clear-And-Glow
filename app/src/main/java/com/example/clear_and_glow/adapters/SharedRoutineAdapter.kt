@@ -16,44 +16,6 @@ class SharedRoutineAdapter(
     private val onLikeClick: (SharedRoutine, Int) -> Unit
 ) : RecyclerView.Adapter<SharedRoutineAdapter.SharedRoutineViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SharedRoutineViewHolder {
-        val binding =
-            SharedRoutineItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return SharedRoutineViewHolder(binding)
-    }
-
-    override fun onBindViewHolder(holder: SharedRoutineViewHolder, position: Int) {
-        holder.bind(sharedRoutines[position])
-    }
-
-    override fun onBindViewHolder(
-        holder: SharedRoutineViewHolder,
-        position: Int,
-        payloads: List<Any>
-    ) {
-        if (payloads.contains("LIKE_UPDATE")) {
-            holder.updateLikeUI(sharedRoutines[position])
-        } else {
-            super.onBindViewHolder(holder, position, payloads)
-        }
-    }
-
-
-    fun setSharedRoutines(newSharedRoutines: List<SharedRoutine>) {
-        sharedRoutines = newSharedRoutines
-        notifyDataSetChanged()
-    }
-
-
-    fun updateLikeStatus(position: Int, sharedRoutine: SharedRoutine) {
-        val updatedList = sharedRoutines.toMutableList()
-        updatedList[position] = sharedRoutine
-        sharedRoutines = updatedList
-        notifyItemChanged(position, "LIKE_UPDATE") // Updates only likes
-    }
-
-    override fun getItemCount(): Int = sharedRoutines.size
-
     inner class SharedRoutineViewHolder(private val binding: SharedRoutineItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -86,4 +48,41 @@ class SharedRoutineAdapter(
             binding.feedBTNLike.setImageResource(likeIcon)
         }
     }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SharedRoutineViewHolder {
+        val binding =
+            SharedRoutineItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return SharedRoutineViewHolder(binding)
+    }
+
+    override fun onBindViewHolder(holder: SharedRoutineViewHolder, position: Int) {
+        holder.bind(sharedRoutines[position])
+    }
+
+    override fun onBindViewHolder(
+        holder: SharedRoutineViewHolder,
+        position: Int,
+        payloads: List<Any>
+    ) {
+        if (payloads.contains("LIKE_UPDATE")) {
+            holder.updateLikeUI(sharedRoutines[position])
+        } else {
+            super.onBindViewHolder(holder, position, payloads)
+        }
+    }
+
+    fun setSharedRoutines(newSharedRoutines: List<SharedRoutine>) {
+        sharedRoutines = newSharedRoutines
+        notifyDataSetChanged()
+    }
+
+    fun updateLikeStatus(position: Int, sharedRoutine: SharedRoutine) {
+        val updatedList = sharedRoutines.toMutableList()
+        updatedList[position] = sharedRoutine
+        sharedRoutines = updatedList
+        notifyItemChanged(position, "LIKE_UPDATE") // Updates only likes
+    }
+
+    override fun getItemCount(): Int = sharedRoutines.size
+
 }

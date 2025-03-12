@@ -19,16 +19,34 @@ data class Product(
 ) {
     fun toggleCollapse() = apply { this.isCollapsed = !this.isCollapsed }
 
+
     fun calculateExpiryDate(): String? {
+        if (openingDate.isNullOrEmpty()) {
+            Log.e("DateParsing", "Invalid date format: openingDate is null or empty")
+            return null
+        }
+
         return try {
             val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
             val localDate = LocalDate.parse(openingDate, formatter)
-            localDate.plusMonths(6).format(formatter)
+            localDate.plusMonths(shelfLifeMonths.toLong()).format(formatter)
         } catch (e: Exception) {
-            Log.e("DateParsing", "Invalid date format: $openingDate", e)
+            Log.e("DateParsing", "Error parsing date: ${e.message}")
             null
         }
     }
+
+
+//    fun calculateExpiryDate(): String? {
+//        return try {
+//            val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+//            val localDate = LocalDate.parse(openingDate, formatter)
+//            localDate.plusMonths(6).format(formatter)
+//        } catch (e: Exception) {
+//            Log.e("DateParsing", "Invalid date format: $openingDate", e)
+//            null
+//        }
+//    }
 
 
     class Builder {

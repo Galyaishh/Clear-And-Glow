@@ -1,6 +1,7 @@
 package com.example.clear_and_glow.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.clear_and_glow.databinding.RoutineProductItemBinding
@@ -14,7 +15,8 @@ class FeedProductsAdapter(private val products: List<Product>) :
         fun bind(product: Product) {
             ImageLoader.getInstance().loadImage(product.picture, binding.feedProductIMGPicture)
             binding.feedProductLBLProductName.text = product.name
-            binding.feedProductLBLBrand.text = product.brand
+            binding.feedProductLYBrand.visibility= View.VISIBLE
+            binding.feedProductTXTBrand.text = product.brand
             binding.feedProductLBLCategory.text = product.category
         }
 

@@ -89,19 +89,6 @@ class FirestoreManager private constructor() {
             .addOnFailureListener { e -> callback.onFailure(e.message ?: "Failed to save product") }
     }
 
-//    fun getAllGlobalProducts(callback: ProductListCallback) {
-//        db.collection(Constants.DB.GLOBAL_PRODUCT_REF).get()
-//            .addOnSuccessListener { documents ->
-//                val productList = documents.map { document ->
-//                    document.toObject(Product::class.java).copy(id = document.id)
-//                }
-//                callback.onSuccess(productList)
-//            }
-//            .addOnFailureListener { e ->
-//                callback.onFailure(e.message ?: "Error loading products")
-//            }
-//    }
-
 
     fun listenForGlobalProductsUpdates(callback: ProductListCallback) {
         db.collection(Constants.DB.GLOBAL_PRODUCT_REF)
@@ -141,16 +128,58 @@ class FirestoreManager private constructor() {
 
     private fun updateCategoriesInFirestore(categories: Set<String>) {
         val categoryRef = db.collection(Constants.DB.CATEGORY_REF)
+
         categories.forEach { categoryName ->
-            categoryRef.whereEqualTo("name", categoryName).get().addOnSuccessListener { ducuments ->
-                if (ducuments.isEmpty) {
-                    val newCategory = ProductCategory(categoryName, R.drawable.unavailable_photo)
-                    categoryRef.add(newCategory)
+            categoryRef.whereEqualTo("name", categoryName).get()
+                .addOnSuccessListener { documents ->
+                    if (documents.isEmpty) {
+                        val newCategory = ProductCategory.getCategory(categoryName)
+                        categoryRef.add(newCategory)
+                            .addOnSuccessListener {
+                                println("Category added: $categoryName with icon ${newCategory.iconResId}")
+                            }
+                            .addOnFailureListener { e ->
+                                println("Error adding category: ${e.message}")
+                            }
+                    } else {
+                        for (document in documents) {
+                            val newIconResId = ProductCategory.getCategory(categoryName).iconResId
+                            categoryRef.document(document.id).update("iconResId", newIconResId)
+                                .addOnSuccessListener {
+                                    println("Icon updated for category: $categoryName")
+                                }
+                                .addOnFailureListener { e ->
+                                    println("Error updating icon: ${e.message}")
+                                }
+                        }
+                    }
                 }
-            }
-                .addOnFailureListener { e -> println("Error updating categories: ${e.message}") }
+                .addOnFailureListener { e ->
+                    println("Error checking category existence: ${e.message}")
+                }
         }
     }
+
+//    private fun updateCategoryIconInFirestore(categoryName: String) {
+//        val categoryRef = db.collection(Constants.DB.CATEGORY_REF)
+//
+//        categoryRef.whereEqualTo("name", categoryName).get()
+//            .addOnSuccessListener { documents ->
+//                for (document in documents) {
+//                    val newIconResId = ProductCategory.getCategory(categoryName).iconResId
+//                    categoryRef.document(document.id).update("iconResId", newIconResId)
+//                        .addOnSuccessListener {
+//                            println("Icon updated successfully for category: $categoryName")
+//                        }
+//                        .addOnFailureListener { e ->
+//                            println("Error updating icon: ${e.message}")
+//                        }
+//                }
+//            }
+//            .addOnFailureListener { e ->
+//                println("Error finding category: ${e.message}")
+//            }
+//    }
 
 
     fun getAllCategories(callback: ProductCategoryListCallback) {
@@ -182,14 +211,12 @@ class FirestoreManager private constructor() {
         val updateProductTask = userProductRef.update(
             mapOf(
                 "openingDate" to product.openingDate,
-                "closingDate" to product.calculateExpiryDate()
             )
         )
 
         val updateRoutineTask = userRoutineRef.update(
             mapOf(
                 "openingDate" to product.openingDate,
-                "closingDate" to product.calculateExpiryDate()
             )
         )
 

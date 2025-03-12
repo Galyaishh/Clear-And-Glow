@@ -38,26 +38,6 @@ class FeedViewModel : ViewModel() {
     }
 
 
-//    fun toggleLike(userId: String, sharedRoutine: SharedRoutine, position: Int) {
-//        sharedRoutine.toggleLike(userId)
-//        _sharedRoutines.value = _sharedRoutines.value?.mapIndexed { index, routine ->
-//            if (index == position) sharedRoutine else routine
-//        }
-//        firestoreManager.updateSharedRoutineLikes(userId,sharedRoutine, object : FirestoreCallback {
-//            override fun onSuccess() {
-//                Log.d("FeedViewModel", "Like updated successfully!")
-//            }
-//
-//            override fun onFailure(errorMessage: String) {
-//                sharedRoutine.toggleLike(userId)
-//                _sharedRoutines.value = _sharedRoutines.value?.mapIndexed { index, routine ->
-//                    if (index == position) sharedRoutine else routine
-//                }
-//                Log.e("FeedViewModel", "Error updating like: $errorMessage")
-//            }
-//        })
-//    }
-
     fun toggleLike(userId: String, sharedRoutine: SharedRoutine, position: Int) {
         val updatedRoutine = sharedRoutine.toggleLike(userId)
         _sharedRoutines.value = _sharedRoutines.value?.toMutableList()?.apply {
