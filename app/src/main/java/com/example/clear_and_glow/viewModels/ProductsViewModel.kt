@@ -31,19 +31,37 @@ class ProductsViewModel : ViewModel() {
     val categories: LiveData<List<ProductCategory>> get() = _categories
 
 
-
     fun loadUserProducts(userId: String) {
         firestoreManager.getUserProducts(userId, object : ProductListCallback {
             override fun onSuccess(products: List<Product>) {
+                Log.d("ViewModelData", "User Products Loaded: ${products.size}")
+                products.forEach { product ->
+                    Log.d("ViewModelData", "Product: ${product.name}, OpeningDate: ${product.openingDate}")
+                }
                 originalUserProducts = products
                 _userProducts.value = products
             }
 
             override fun onFailure(errorMessage: String) {
+                Log.e("ViewModelData", "Failed to load user products: $errorMessage")
                 _userProducts.value = emptyList()
             }
         })
     }
+
+
+//    fun loadUserProducts(userId: String) {
+//        firestoreManager.getUserProducts(userId, object : ProductListCallback {
+//            override fun onSuccess(products: List<Product>) {
+//                originalUserProducts = products
+//                _userProducts.value = products
+//            }
+//
+//            override fun onFailure(errorMessage: String) {
+//                _userProducts.value = emptyList()
+//            }
+//        })
+//    }
 
 
     fun loadGlobalProducts() {

@@ -1,6 +1,7 @@
 package com.example.clear_and_glow.adapters
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -23,9 +24,15 @@ class RoutineAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(product: Product) {
+
+            Log.d("RoutineAdapter", "Binding product: ${product.name}, Opening Date: ${product.openingDate}, Expiry Date: ${product.calculateExpiryDate()}")
+
+
             binding.productLBLTitle.text = product.name
-            binding.productTXTOpenedDate.text = product.openingDate ?: "N/A"
-            binding.productTXTExpiredDate.text = product.calculateExpiryDate() ?: "N/A"
+            binding.productTXTOpenedDate.text =
+                if (product.openingDate.isNullOrEmpty()) "N/A" else product.openingDate
+            binding.productTXTExpiredDate.text =
+                if (product.openingDate.isNullOrEmpty()) "N/A" else product.calculateExpiryDate()
             binding.productLBLSkinType.text =
                 product.category //instead of skin type i decided to show category
             binding.productTXTBrand.visibility = View.GONE
@@ -65,11 +72,25 @@ class RoutineAdapter(
 
     override fun getItemCount(): Int = productList.size
 
+//    fun updateList(newProducts: List<Product>) {
+//        productList.clear()
+//        productList.addAll(newProducts)
+//        notifyDataSetChanged()
+//    }
+
     fun updateList(newProducts: List<Product>) {
+        Log.d("RoutineAdapter", "Updating adapter with ${newProducts.size} products")
+        newProducts.forEach { product ->
+            Log.d(
+                "RoutineAdapter",
+                "Product: ${product.name}, Opening Date: ${product.openingDate}"
+            )
+        }
         productList.clear()
         productList.addAll(newProducts)
         notifyDataSetChanged()
     }
+
 
     fun setEditMode(isEdit: Boolean) {
         isEditMode = isEdit

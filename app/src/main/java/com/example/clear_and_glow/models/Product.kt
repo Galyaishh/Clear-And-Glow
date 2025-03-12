@@ -20,21 +20,67 @@ data class Product(
     fun toggleCollapse() = apply { this.isCollapsed = !this.isCollapsed }
 
 
+//    fun calculateExpiryDate(): String? {
+//        if (openingDate.isNullOrEmpty()) {
+//            Log.e("DateParsing", "Invalid date format: openingDate is null or empty")
+//            return null
+//        }
+//
+//        return try {
+//            val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+//            val localDate = LocalDate.parse(openingDate, formatter)
+//            localDate.plusMonths(shelfLifeMonths.toLong()).format(formatter)
+//        } catch (e: Exception) {
+//            Log.e("DateParsing", "Error parsing date: ${e.message}")
+//            null
+//        }
+//    }
+
     fun calculateExpiryDate(): String? {
         if (openingDate.isNullOrEmpty()) {
-            Log.e("DateParsing", "Invalid date format: openingDate is null or empty")
-            return null
+            return null // Return null if openingDate is not set
         }
 
         return try {
             val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
             val localDate = LocalDate.parse(openingDate, formatter)
-            localDate.plusMonths(shelfLifeMonths.toLong()).format(formatter)
+            val expiryDate = localDate.plusMonths(shelfLifeMonths.toLong())
+            expiryDate.format(formatter) // Return formatted expiry date
         } catch (e: Exception) {
-            Log.e("DateParsing", "Error parsing date: ${e.message}")
-            null
+            Log.e("DateParsing", "Invalid date format: $openingDate", e)
+            null // Return null if parsing fails
         }
     }
+
+
+//    fun calculateExpiryDate(): String? {
+//        if (openingDate.isNullOrEmpty()) {
+//            return null
+//        }
+//        return try {
+//            val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+//            val localDate = LocalDate.parse(openingDate, formatter)
+//            localDate.plusMonths(shelfLifeMonths.toLong()).format(formatter)
+//        } catch (e: Exception) {
+//            Log.e("DateParsing", "Invalid date format: $openingDate", e)
+//            null
+//        }
+//    }
+
+
+//    fun calculateExpiryDate(): String? {
+//        if (openingDate.isNullOrEmpty()) {
+//            return null
+//        }
+//        return try {
+//            val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+//            val localDate = LocalDate.parse(openingDate, formatter)
+//            localDate.plusMonths(shelfLifeMonths.toLong()).format(formatter)
+//        } catch (e: Exception) {
+//            Log.e("DateParsing", "Invalid date format: $openingDate", e)
+//            null
+//        }
+//    }
 
 
 //    fun calculateExpiryDate(): String? {

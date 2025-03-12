@@ -1,5 +1,6 @@
 package com.example.clear_and_glow.utilities
 
+import android.util.Log
 import com.example.clear_and_glow.R
 import com.example.clear_and_glow.interfaces.FirestoreCallback
 import com.example.clear_and_glow.interfaces.ProductCategoryListCallback
@@ -338,6 +339,7 @@ class FirestoreManager private constructor() {
                 val productList = mutableListOf<Product>()
                 for (document in documents) {
                     val product = document.toObject(Product::class.java).copy(id = document.id)
+                    Log.d("FirestoreData", "Product: ${product.name}, OpeningDate: ${product.openingDate}") // ✅ הדפסת תאריך פתיחה
                     productList.add(product)
                 }
                 callback.onSuccess(productList)

@@ -153,6 +153,22 @@ class MyRoutinesFragment : Fragment() {
     }
 
 
+//    fun openProductSelectionDialog(timeOfDay: String) {
+//        val userId = authManager.getCurrentUserUid() ?: return
+//        val userProducts = productsViewModel.userProducts.value ?: emptyList()
+//
+//        if (userProducts.isEmpty()) {
+//            Toast.makeText(requireContext(), "No products available", Toast.LENGTH_SHORT).show()
+//            return
+//        }
+//        selectProductDialog =
+//            SelectProductDialog(requireContext(), userProducts) { selectedProduct ->
+//                addProductToRoutine(selectedProduct, timeOfDay)
+//                updateProductDates(userId, selectedProduct)
+//            }
+//        selectProductDialog.show()
+//    }
+
     fun openProductSelectionDialog(timeOfDay: String) {
         val userId = authManager.getCurrentUserUid() ?: return
         val userProducts = productsViewModel.userProducts.value ?: emptyList()
@@ -161,13 +177,17 @@ class MyRoutinesFragment : Fragment() {
             Toast.makeText(requireContext(), "No products available", Toast.LENGTH_SHORT).show()
             return
         }
+
         selectProductDialog =
             SelectProductDialog(requireContext(), userProducts) { selectedProduct ->
+                productsViewModel.updateProductDates(userId, selectedProduct)
                 addProductToRoutine(selectedProduct, timeOfDay)
-                updateProductDates(userId, selectedProduct)
+                routineViewModel.loadUserRoutines(userId)
+
             }
         selectProductDialog.show()
     }
+
 
     private fun addProductToRoutine(product: Product, timeOfDay: String) {
         val userId = authManager.getCurrentUserUid() ?: return
