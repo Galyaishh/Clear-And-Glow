@@ -88,45 +88,4 @@ class FeedViewModel : ViewModel() {
     }
 }
 
-//    fun shareRoutine(userId: String, timeOfDay: String, routine: Routine, firestoreCallback: FirestoreCallback) {
-//        firestoreManager.getUser(userId, object : UserCallback {
-//            override fun onSuccess(user: User) {
-//                val sharedRoutine = SharedRoutine(
-//                    id = firestoreManager.generateSharedRoutineId(),
-//                    userId = userId,
-//                    userName = user.getFullName(),
-//                    profileImageRes = user.,  // If available
-//                    title = "$timeOfDay Routine",
-//                    routine = routine
-//                )
-//
-//                // Now upload the routine to Firestore
-//                firestoreManager.uploadSharedRoutine(sharedRoutine, firestoreCallback)
-//            }
-//
-//            override fun onFailure(errorMessage: String) {
-//                firestoreCallback.onFailure(errorMessage)
-//            }
-//        })
-//    }
-
-
-//    fun updateSharedRoutine(sharedRoutine: SharedRoutine) {
-//        firestoreManager.updateSharedRoutine(sharedRoutine, object : FirestoreCallback {
-//            override fun onSuccess() {
-//                firestoreManager.getAllSharedRoutines(object : SharedRoutinesCallback {
-//                    override fun onSuccess(sharedRoutines: List<SharedRoutine>) {
-//                        _sharedRoutines.value = sharedRoutines
-//                    }
-//
-//                    override fun onFailure(errorMessage: String) {
-//                        Log.e("FeedViewModel", "Failed to fetch updated routines: $errorMessage")
-//                    }
-//                })
-//            }
-//            override fun onFailure(errorMessage: String) {
-//                Log.e("FeedViewModel", "Error updating like: $errorMessage")
-//            }
-//        })
-//    }
 

@@ -18,15 +18,13 @@ class ImageLoader private constructor(context: Context) {
     fun loadImage(
         source: String?,
         imageView: ImageView,
-        placeholder: Int = R.drawable.unavailable_photo
+        placeholder: Int = R.drawable.ic_products
     ) {
         contextRef.get()?.let { context ->
-            // Clear the existing image to avoid flickering or wrong images
             Glide.with(imageView.context).clear(imageView)
 
             if (!source.isNullOrEmpty()) {
                 if (source.startsWith("gs://")) {
-                    // Handle Firebase Storage references
                     val storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(source)
                     storageRef.downloadUrl.addOnSuccessListener { uri ->
                         loadImageFromUrl(uri, imageView, placeholder)
@@ -68,58 +66,3 @@ class ImageLoader private constructor(context: Context) {
         }
     }
 }
-
-//class ImageLoader private constructor(context: Context) {
-//    private val contextRef = WeakReference(context.applicationContext)
-//
-//    fun loadImage(
-//        source: Any?,
-//        imageView: ImageView,
-//        placeholder: Int = R.drawable.unavailable_photo
-//    ) {
-//        contextRef.get()?.let { context ->
-//            Glide.with(imageView.context).clear(imageView)
-//
-//            if (source is String && source.startsWith("gs://")) {
-//                val storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(source)
-//                storageRef.downloadUrl.addOnSuccessListener { uri ->
-//                    loadImageFromGlide(uri, imageView, placeholder)
-//                }.addOnFailureListener {
-//                    imageView.setImageResource(placeholder)
-//                }
-//            } else {
-//                loadImageFromGlide(source, imageView, placeholder)
-//            }
-//        }
-//    }
-//
-//    private fun loadImageFromGlide(source: Any?, imageView: ImageView, placeholder: Int) {
-//        Glide.with(imageView.context)
-//            .load(source)
-//            .apply(
-//                RequestOptions()
-//                    .placeholder(placeholder)
-//                    .error(R.drawable.unavailable_photo)
-//                    .centerCrop()
-//                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-//            )
-//            .into(imageView)
-//    }
-//
-//    companion object {
-//        @Volatile
-//        private var instance: ImageLoader? = null
-//
-//        fun init(context: Context): ImageLoader {
-//            return instance ?: synchronized(this) {
-//                instance ?: ImageLoader(context).also { instance = it }
-//            }
-//        }
-//
-//        fun getInstance(): ImageLoader {
-//            return instance ?: throw IllegalStateException(
-//                "ImageLoader must be initialized by calling init(context) before use."
-//            )
-//        }
-//    }
-//}

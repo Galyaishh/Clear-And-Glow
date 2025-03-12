@@ -43,35 +43,6 @@ class RoutineViewModel : ViewModel() {
         updateRoutine(userId, updatedRoutine)
     }
 
-//    fun addProductToRoutine(userId: String, product: Product, timeOfDay: String) {
-//        val currentRoutineList = _userRoutines.value?.toMutableList() ?: mutableListOf()
-//
-//        if (currentRoutineList.isEmpty()) {
-//            currentRoutineList.add(Routine(timeOfDay = "Morning", products = emptyList()))
-//            currentRoutineList.add(Routine(timeOfDay = "Evening", products = emptyList()))
-//        }
-//
-//        val routineIndex = currentRoutineList.indexOfFirst { it.timeOfDay == timeOfDay }
-//        if (routineIndex != -1) {
-//            val existingRoutine = currentRoutineList[routineIndex]
-//            val updatedRoutine = existingRoutine.copy(
-//                products = (existingRoutine.products ?: emptyList()) + product
-//            )
-//            currentRoutineList[routineIndex] = updatedRoutine
-//        }
-//        _userRoutines.value = currentRoutineList
-//    }
-
-//
-//    fun addProductToRoutine(userId: String, product: Product, timeOfDay: String) {
-//        val currentRoutine = _userRoutines.value?.find { it.timeOfDay == timeOfDay }
-//        val updatedRoutine = currentRoutine?.copy(
-//            products = (currentRoutine.products ?: emptyList()) + product
-//        ) ?: Routine(timeOfDay = timeOfDay, products = listOf(product))
-//
-//        _userRoutines.value
-//    }
-
     fun updateRoutine(userId: String, routine: Routine) {
         firestoreManager.saveRoutine(userId, routine, object : FirestoreCallback {
             override fun onSuccess() {
@@ -89,7 +60,7 @@ class RoutineViewModel : ViewModel() {
     fun removeProductFromRoutine(userId: String, product: Product, timeOfDay: String) {
         val currentRoutine = _userRoutines.value?.find { it.timeOfDay == timeOfDay } ?: return
         val updatedRoutine = currentRoutine.copy(
-            products = currentRoutine.products?.filterNot { it.id == product.id } ?: emptyList()
+            products = currentRoutine.products.filterNot { it.id == product.id } ?: emptyList()
         )
         updateRoutine(userId, updatedRoutine)
     }

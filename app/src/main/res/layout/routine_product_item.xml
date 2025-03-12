@@ -21,10 +21,10 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/feed_product_IMG_picture"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:scaleType="centerCrop"
-            app:srcCompat="@drawable/ic_launcher_background" />
+            app:srcCompat="@drawable/ic_products" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView

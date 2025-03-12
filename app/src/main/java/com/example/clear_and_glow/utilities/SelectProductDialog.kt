@@ -37,10 +37,6 @@ class SelectProductDialog(
             dismiss()
         },false)
 
-        Log.d("SelectProductDialog", "Product list size: ${productList.size}")
-
-
-
         binding.dialogProductRV.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = this@SelectProductDialog.adapter

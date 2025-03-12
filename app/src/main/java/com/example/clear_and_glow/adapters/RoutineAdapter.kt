@@ -25,8 +25,6 @@ class RoutineAdapter(
 
         fun bind(product: Product) {
 
-            Log.d("RoutineAdapter", "Binding product: ${product.name}, Opening Date: ${product.openingDate}, Expiry Date: ${product.calculateExpiryDate()}")
-
 
             binding.productLBLTitle.text = product.name
             binding.productTXTOpenedDate.text =
@@ -71,21 +69,9 @@ class RoutineAdapter(
     }
 
     override fun getItemCount(): Int = productList.size
-
-//    fun updateList(newProducts: List<Product>) {
-//        productList.clear()
-//        productList.addAll(newProducts)
-//        notifyDataSetChanged()
-//    }
+    
 
     fun updateList(newProducts: List<Product>) {
-        Log.d("RoutineAdapter", "Updating adapter with ${newProducts.size} products")
-        newProducts.forEach { product ->
-            Log.d(
-                "RoutineAdapter",
-                "Product: ${product.name}, Opening Date: ${product.openingDate}"
-            )
-        }
         productList.clear()
         productList.addAll(newProducts)
         notifyDataSetChanged()

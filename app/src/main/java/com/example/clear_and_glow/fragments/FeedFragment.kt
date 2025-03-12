@@ -54,13 +54,6 @@ class FeedFragment : Fragment() {
 
         authManager = AuthManager.getInstance(requireContext())
 
-        val user = FirebaseAuth.getInstance().currentUser
-        if (user == null) {
-            Log.e("FirebaseAuth", "User is null! Not authenticated.")
-        } else {
-            Log.d("FirebaseAuth", "User is authenticated: ${user.uid}")
-        }
-
         loadUserProfile()
         setupRecyclerView()
         setupObservers()

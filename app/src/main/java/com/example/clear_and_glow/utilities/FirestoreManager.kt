@@ -161,27 +161,6 @@ class FirestoreManager private constructor() {
         }
     }
 
-//    private fun updateCategoryIconInFirestore(categoryName: String) {
-//        val categoryRef = db.collection(Constants.DB.CATEGORY_REF)
-//
-//        categoryRef.whereEqualTo("name", categoryName).get()
-//            .addOnSuccessListener { documents ->
-//                for (document in documents) {
-//                    val newIconResId = ProductCategory.getCategory(categoryName).iconResId
-//                    categoryRef.document(document.id).update("iconResId", newIconResId)
-//                        .addOnSuccessListener {
-//                            println("Icon updated successfully for category: $categoryName")
-//                        }
-//                        .addOnFailureListener { e ->
-//                            println("Error updating icon: ${e.message}")
-//                        }
-//                }
-//            }
-//            .addOnFailureListener { e ->
-//                println("Error finding category: ${e.message}")
-//            }
-//    }
-
 
     fun getAllCategories(callback: ProductCategoryListCallback) {
         db.collection(Constants.DB.CATEGORY_REF).get().addOnSuccessListener { documents ->
@@ -257,89 +236,12 @@ class FirestoreManager private constructor() {
             }
     }
 
-//        fun getUserProducts(userId: String, callback: ProductListCallback) {
-//            db.collection(Constants.DB.USER_REF).document(userId).collection("products").get()
-//                .addOnSuccessListener { documents ->
-//                    val productList = mutableListOf<Product>()
-//                    for (document in documents) {
-//                        val product = document.toObject(Product::class.java).copy(id = document.id)
-//                        productList.add(product)
-//                    }
-//                    callback.onSuccess(productList)
-//                }
-//                .addOnFailureListener { e ->
-//                    callback.onFailure(e.message ?: "Error loading products")
-//                }
-//        }
-
-
-//        fun saveRoutine(userId: String, routine: Routine, callback: FirestoreCallback) {
-//            db.collection(Constants.DB.USER_REF).document(userId)
-//                .collection(Constants.DB.ROUTINE_REF)
-//                .document(routine.id).set(routine)
-//                .addOnSuccessListener { callback.onSuccess() }
-//                .addOnFailureListener { e ->
-//                    callback.onFailure(
-//                        e.message ?: "Failed to save routine"
-//                    )
-//                }
-//        }
-
-//        fun getUserRoutines(userId: String, callback: RoutinesCallback) {
-//            db.collection(Constants.DB.USER_REF).document(userId)
-//                .collection(Constants.DB.ROUTINE_REF).get()
-//                .addOnSuccessListener { documents ->
-//                    val routinesList = documents.mapNotNull { it.toObject(Routine::class.java) }
-//                    callback.onSuccess(routinesList)
-//                }
-//                .addOnFailureListener { e ->
-//                    callback.onFailure(
-//                        e.message ?: "Failed to load routines"
-//                    )
-//                }
-//        }
-
-
-    fun addSampleProductsToGlobal() {
-        val sampleProducts = listOf(
-            Product(
-                id = "",
-                picture = "gs://clearglow-ba4bb.firebasestorage.app/p1.jpg",
-                name = "Estée Lauder Advanced Night Repair Serum",
-                brand = "Estée Lauder",
-                skinType = "All",
-                category = "Serum",
-                ingredients = listOf(
-                    "Bifida Ferment Lysate",
-                    "Tripeptide-32",
-                    "Sodium Hyaluronate"
-                ),
-                shelfLifeMonths = 18,
-                barcode = "027131953728"
-            )
-        )
-
-        val firestoreManager = FirestoreManager.getInstance()
-        for (product in sampleProducts) {
-            firestoreManager.saveProductToGlobal(product, object : FirestoreCallback {
-                override fun onSuccess() {
-                    println("Product added: ${product.name} (${product.category})")
-                }
-
-                override fun onFailure(errorMessage: String) {
-                    println("Error adding product: ${product.name}, Error: $errorMessage")
-                }
-            })
-        }
-    }
-
     fun getUserProducts(userId: String, callback: ProductListCallback) {
-        db.collection(Constants.DB.USER_REF).document(userId).collection("products").get()
+        db.collection(Constants.DB.USER_REF).document(userId).collection(Constants.DB.PRODUCT_REF).get()
             .addOnSuccessListener { documents ->
                 val productList = mutableListOf<Product>()
                 for (document in documents) {
                     val product = document.toObject(Product::class.java).copy(id = document.id)
-                    Log.d("FirestoreData", "Product: ${product.name}, OpeningDate: ${product.openingDate}") // ✅ הדפסת תאריך פתיחה
                     productList.add(product)
                 }
                 callback.onSuccess(productList)
@@ -432,22 +334,43 @@ class FirestoreManager private constructor() {
         return db.collection(collectionPath).document().id
     }
 
+
+
+    fun addSampleProductsToGlobal() {
+        val sampleProducts = listOf(
+            Product(
+                id = "",
+                picture = "gs://clearglow-ba4bb.firebasestorage.app/p1.jpg",
+                name = "Estée Lauder Advanced Night Repair Serum",
+                brand = "Estée Lauder",
+                skinType = "All",
+                category = "Serum",
+                ingredients = listOf(
+                    "Bifida Ferment Lysate",
+                    "Tripeptide-32",
+                    "Sodium Hyaluronate"
+                ),
+                shelfLifeMonths = 18,
+                barcode = "027131953728"
+            )
+        )
+
+        val firestoreManager = FirestoreManager.getInstance()
+        for (product in sampleProducts) {
+            firestoreManager.saveProductToGlobal(product, object : FirestoreCallback {
+                override fun onSuccess() {
+                    println("Product added: ${product.name} (${product.category})")
+                }
+
+                override fun onFailure(errorMessage: String) {
+                    println("Error adding product: ${product.name}, Error: $errorMessage")
+                }
+            })
+        }
+    }
+
 }
 
-
-//    fun getUserRoutines(userId: String, callback: RoutinesCallback) {
-//        db.collection(Constants.DB.USER_REF).document(userId)
-//            .collection(Constants.DB.ROUTINE_REF).get()
-//            .addOnSuccessListener { documents ->
-//                val routinesList = documents.mapNotNull { it.toObject(Routine::class.java) }
-//                callback.onSuccess(routinesList)
-//            }
-//            .addOnFailureListener { e ->
-//                callback.onFailure(
-//                    e.message ?: "Failed to load routines"
-//                )
-//            }
-//    }
 
 
 

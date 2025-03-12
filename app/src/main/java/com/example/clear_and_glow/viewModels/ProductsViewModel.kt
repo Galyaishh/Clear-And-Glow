@@ -50,20 +50,6 @@ class ProductsViewModel : ViewModel() {
     }
 
 
-//    fun loadUserProducts(userId: String) {
-//        firestoreManager.getUserProducts(userId, object : ProductListCallback {
-//            override fun onSuccess(products: List<Product>) {
-//                originalUserProducts = products
-//                _userProducts.value = products
-//            }
-//
-//            override fun onFailure(errorMessage: String) {
-//                _userProducts.value = emptyList()
-//            }
-//        })
-//    }
-
-
     fun loadGlobalProducts() {
         firestoreManager.getAllGlobalProducts(object : ProductListCallback {
             override fun onSuccess(products: List<Product>) {
@@ -76,22 +62,6 @@ class ProductsViewModel : ViewModel() {
             }
         })
     }
-
-//    fun fetchAllProductImages() {
-//        val db = FirebaseFirestore.getInstance()
-//        db.collection("products")
-//            .get()
-//            .addOnSuccessListener { documents ->
-//                for (document in documents) {
-//                    val productId = document.id
-//                    val imageUrl = document.getString("picture") ?: ""
-//                    ImageLoader.productImages[productId] = imageUrl
-//                }
-//            }
-//            .addOnFailureListener {
-//                Log.e("Firestore", "Failed to load product images", it)
-//            }
-//    }
 
 
     fun loadCategories() {
