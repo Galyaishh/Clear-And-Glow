@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/product_CV_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="5dp"
+        android:elevation="8dp"
+        android:outlineSpotShadowColor="#9B0000"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp">
+
+<!--             Profile Image -->
+<!--            <com.google.android.material.button.MaterialButton-->
+<!--                            android:id="@+id/feed_IMG_profile"-->
+<!--                            android:layout_width="45dp"-->
+<!--                            android:layout_height="45dp"-->
+<!--                            android:layout_gravity="center_vertical"-->
+<!--                            android:backgroundTint="#B6B8C3"-->
+<!--                            android:insetTop="0dp"-->
+<!--                            android:insetBottom="0dp"-->
+<!--                            android:padding="0dp"-->
+<!--                            android:src="@drawable/ic_user"-->
+<!--                            app:icon="@drawable/ic_user"-->
+<!--                            app:iconGravity="textTop"-->
+<!--                            app:iconPadding="0dp"-->
+<!--                            app:iconSize="35dp"-->
+<!--                            app:iconTint="@color/black"-->
+<!--                            app:layout_constraintStart_toStartOf="parent"-->
+<!--                            app:layout_constraintTop_toTopOf="parent" />-->
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/feed_IMG_profile"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:backgroundTint="#B6B8C3"
+                app:civ_circle_background_color="@color/light_gray"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:padding="0dp"
+                android:src="@drawable/user"
+                app:iconGravity="textTop"
+                app:iconPadding="0dp"
+                app:iconSize="35dp"
+                app:iconTint="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <!-- User Name -->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/feed_TXT_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/feed_IMG_profile"
+                app:layout_constraintTop_toTopOf="@id/feed_IMG_profile"
+                android:layout_marginStart="5dp"
+                tools:text="User Name" />
+
+            <!-- Like Section (Text + Heart Button) -->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/feed_LY_like"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/feed_TXT_name">
+
+                <!-- Like Counter -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/feed_TXT_like"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:textSize="18sp"
+                    tools:text="0"
+                    android:paddingVertical="5dp"
+                    />
+
+                <!-- Like (Heart) Button -->
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/feed_BTN_like"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_heart_border" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <!-- Routine Title -->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/feed_TXT_routine_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/feed_TXT_name"
+                app:layout_constraintTop_toBottomOf="@id/feed_TXT_name"
+                tools:text="My morning routine" />
+
+            <!-- RecyclerView for Products -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/feed_RV_products"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/feed_TXT_routine_title"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="8dp"
+                tools:itemCount="2"
+                tools:listitem="@layout/routine_product_item" />
+
+<!--            &lt;!&ndash; Expand Button &ndash;&gt;-->
+<!--            <androidx.appcompat.widget.AppCompatImageButton-->
+<!--                android:id="@+id/feed_BTN_expand"-->
+<!--                android:layout_width="24dp"-->
+<!--                android:layout_height="24dp"-->
+<!--                android:background="?attr/selectableItemBackgroundBorderless"-->
+<!--                android:src="@drawable/ic_expand"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/feed_RV_products"-->
+<!--                android:layout_marginBottom="5dp"-->
+<!--                android:layout_marginTop="10dp" />-->
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <!--    &lt;!&ndash; Profile Image &ndash;&gt;-->
+    <!--<androidx.appcompat.widget.AppCompatImageView-->
+    <!--android:id="@+id/feed_IMG_profile"-->
+    <!--android:layout_width="40dp"-->
+    <!--android:layout_height="40dp"-->
+    <!--android:src="@drawable/ic_user"-->
+    <!--android:scaleType="centerCrop"-->
+    <!--android:background="@drawable/circular_button_background"-->
+    <!--android:layout_alignParentStart="true"-->
+    <!--    />-->
+
+    <!--    &lt;!&ndash; Username &ndash;&gt;-->
+    <!--<androidx.appcompat.widget.AppCompatTextView-->
+    <!--android:id="@+id/feedUsername"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="Israel Israeli"-->
+    <!--android:textStyle="bold"-->
+    <!--android:textSize="16sp"-->
+    <!--android:textColor="@color/black"-->
+    <!--android:layout_alignEnd="@id/feed_IMG_profile"-->
+    <!--android:layout_marginStart="8dp"/>-->
+
+    <!--    &lt;!&ndash; Like (Heart) Button &ndash;&gt;-->
+    <!--<androidx.appcompat.widget.AppCompatImageButton-->
+    <!--android:id="@+id/feedLikeButton"-->
+    <!--android:layout_width="24dp"-->
+    <!--android:layout_height="24dp"-->
+    <!--android:src="@drawable/ic_heart_border"-->
+    <!--android:background="?attr/selectableItemBackgroundBorderless"-->
+    <!--android:layout_alignParentTop="true"-->
+    <!--android:layout_alignParentEnd="true"/>-->
+
+    <!--    &lt;!&ndash; Routine Title &ndash;&gt;-->
+    <!--<androidx.appcompat.widget.AppCompatTextView-->
+    <!--android:id="@+id/feed_TXT_routine_title"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="My morning routine"-->
+    <!--android:textStyle="bold"-->
+    <!--android:textSize="14sp"-->
+    <!--android:textColor="@color/black"-->
+    <!--android:paintFlags="underline"-->
+    <!--android:layout_below="@id/feed_IMG_profile"-->
+    <!--android:layout_marginTop="4dp"/>-->
+
+
+    <!--    &lt;!&ndash; Expand (Full Routine) Button &ndash;&gt;-->
+    <!--<androidx.appcompat.widget.AppCompatImageButton-->
+    <!--android:id="@+id/feedExpandButton"-->
+    <!--android:layout_width="24dp"-->
+    <!--android:layout_height="24dp"-->
+    <!--android:src="@drawable/ic_expand"-->
+    <!--android:background="?attr/selectableItemBackgroundBorderless"-->
+    <!--android:layout_alignParentEnd="true"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:layout_marginBottom="8dp"/>-->

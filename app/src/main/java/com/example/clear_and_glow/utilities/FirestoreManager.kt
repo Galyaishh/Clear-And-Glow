@@ -5,10 +5,12 @@ import com.example.clear_and_glow.interfaces.FirestoreCallback
 import com.example.clear_and_glow.interfaces.ProductCategoryListCallback
 import com.example.clear_and_glow.interfaces.ProductListCallback
 import com.example.clear_and_glow.interfaces.RoutinesCallback
+import com.example.clear_and_glow.interfaces.SharedRoutinesCallback
 import com.example.clear_and_glow.interfaces.UserCallback
 import com.example.clear_and_glow.models.Product
 import com.example.clear_and_glow.models.ProductCategory
 import com.example.clear_and_glow.models.Routine
+import com.example.clear_and_glow.models.SharedRoutine
 import com.example.clear_and_glow.models.User
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
@@ -47,6 +49,33 @@ class FirestoreManager private constructor() {
                 }
             }
             .addOnFailureListener { e -> callback.onFailure(e.message ?: "Error fetching user") }
+    }
+
+    fun saveUserProfilePic(userId: String, imageUrl: String, callback: FirestoreCallback){
+        db.collection(Constants.DB.USER_REF).document(userId).update("profilePicUrl", imageUrl).addOnSuccessListener {
+            callback.onSuccess()
+        }.addOnFailureListener { e ->
+            callback.onFailure(e.message ?: "Failed to save user profile picture")
+        }
+    }
+
+    fun getUserProfilePic(userId: String, callback: (String?) -> Unit) {
+        db.collection(Constants.DB.USER_REF).document(userId).get()
+            .addOnSuccessListener { document ->
+                val imageUrl = document.getString("profilePicUrl")
+                callback(imageUrl)
+            }
+            .addOnFailureListener {
+                callback(null)
+            }
+    }
+
+    fun updateUserProfilePic(userId: String, imageUrl: String, callback: FirestoreCallback){
+        db.collection(Constants.DB.USER_REF).document(userId).update("profilePicUrl", imageUrl).addOnSuccessListener {
+            callback.onSuccess()
+        }.addOnFailureListener { e ->
+            callback.onFailure(e.message ?: "Failed to save user profile picture")
+        }
     }
 
     fun saveProductToGlobal(product: Product, callback: FirestoreCallback) {
@@ -109,15 +138,19 @@ class FirestoreManager private constructor() {
         val userRoutineRef = db.collection(Constants.DB.USER_REF).document(userId)
             .collection(Constants.DB.ROUTINE_REF).document(product.id)
 
-        val updateProductTask = userProductRef.update(mapOf(
-            "openingDate" to product.openingDate,
-            "closingDate" to product.calculateExpiryDate()
-        ))
+        val updateProductTask = userProductRef.update(
+            mapOf(
+                "openingDate" to product.openingDate,
+                "closingDate" to product.calculateExpiryDate()
+            )
+        )
 
-        val updateRoutineTask = userRoutineRef.update(mapOf(
-            "openingDate" to product.openingDate,
-            "closingDate" to product.calculateExpiryDate()
-        ))
+        val updateRoutineTask = userRoutineRef.update(
+            mapOf(
+                "openingDate" to product.openingDate,
+                "closingDate" to product.calculateExpiryDate()
+            )
+        )
 
         return Tasks.whenAll(updateProductTask, updateRoutineTask)
     }
@@ -202,7 +235,7 @@ class FirestoreManager private constructor() {
         val sampleProducts = listOf(
             Product(
                 id = "",
-                picture = "https://example.com/cerave-cleanser.jpg",
+                picture = "",
                 name = "CeraVe Hydrating Facial Cleanser",
                 brand = "CeraVe",
                 skinType = "Normal to Dry",
@@ -329,6 +362,59 @@ class FirestoreManager private constructor() {
             }
     }
 
+    fun getAllSharedRoutines(callback: SharedRoutinesCallback) {
+        db.collection(Constants.DB.SHARED_ROUTINE_REF).get()
+            .addOnSuccessListener { documents ->
+                val routinesList = documents.map { it.toObject(SharedRoutine::class.java) }
+                callback.onSuccess(routinesList)
+            }
+            .addOnFailureListener { e ->
+                callback.onFailure(e.message ?: "Error loading shared routines")
+            }
+    }
+
+    fun updateSharedRoutineLikes(sharedRoutine: SharedRoutine, callback: FirestoreCallback) {
+        db.collection(Constants.DB.SHARED_ROUTINE_REF).document(sharedRoutine.id)
+            .update(
+                mapOf(
+                    "likeCount" to sharedRoutine.likeCount,
+                    "likedBy" to sharedRoutine.likedBy
+                )
+            )
+            .addOnSuccessListener { callback.onSuccess() }
+            .addOnFailureListener { e -> callback.onFailure(e.message ?: "Failed to update shared routine") }
+    }
+
+    fun listenForSharedRoutineUpdates(callback: SharedRoutinesCallback) {
+        db.collection(Constants.DB.SHARED_ROUTINE_REF)
+            .addSnapshotListener { snapshots, e ->
+                if (e != null) {
+                    callback.onFailure(e.message ?: "Error listening for updates")
+                    return@addSnapshotListener
+                }
+
+                if (snapshots != null) {
+                    val routinesList = snapshots.map { it.toObject(SharedRoutine::class.java) }
+                    callback.onSuccess(routinesList)
+                }
+            }
+    }
+
+    fun saveShareRoutine(sharedRoutine: SharedRoutine, callback: FirestoreCallback) {
+        db.collection(Constants.DB.SHARED_ROUTINE_REF).document(sharedRoutine.id).set(sharedRoutine)
+            .addOnSuccessListener { callback.onSuccess() }.addOnFailureListener { e ->
+                callback.onFailure(
+                    e.message ?: "Failed to share routine"
+                )
+            }
+    }
+
+    fun generateDocumentId(collectionPath: String): String {
+        return db.collection(collectionPath).document().id
+    }
+
+}
+
 
 //    fun getUserRoutines(userId: String, callback: RoutinesCallback) {
 //        db.collection(Constants.DB.USER_REF).document(userId)
@@ -344,7 +430,5 @@ class FirestoreManager private constructor() {
 //            }
 //    }
 
-
-}
 
 

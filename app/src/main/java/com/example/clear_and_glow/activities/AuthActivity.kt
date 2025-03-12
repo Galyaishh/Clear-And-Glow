@@ -2,12 +2,15 @@ package com.example.clear_and_glow.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.clear_and_glow.databinding.ActivityAuthBinding
 import com.example.clear_and_glow.utilities.AuthManager
 import com.example.clear_and_glow.utilities.FirestoreManager
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
 class AuthActivity : AppCompatActivity() {
@@ -24,12 +27,21 @@ class AuthActivity : AppCompatActivity() {
 //        FirestoreManager.getInstance().addSampleProductsToGlobal()
         authManager = AuthManager.getInstance(this)
 
-        authManager.signOut()
+
         // If user is already logged in, go to MainActivity
         if (authManager.isUserLoggedIn()) {
             navigateToMain()
             return
         }
+
+
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user == null) {
+            Log.e("FirebaseAuth", "User is null! Not authenticated.")
+        } else {
+            Log.d("FirebaseAuth", "User is authenticated: ${user.uid}")
+        }
+
 
         initViews()
     }

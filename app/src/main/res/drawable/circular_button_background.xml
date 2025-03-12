@@ -1,7 +1,16 @@
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="@color/pink" /> <!-- Same color as the tint -->
-    <corners android:radius="300dp" />
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+
+    <solid android:color="@color/pink"/> <!-- Same color as the tint -->
+
+    <corners android:radius="300dp"/>
+
     <stroke
-        android:width="2dp"
-        android:color="@color/light_pink" /> <!-- Border matches the button -->
+        android:width="3dp"
+        android:color="@color/light_pink"/> <!-- Border matches the button -->
+
+    <size
+        android:width="40dp"
+        android:height="40dp"/> <!-- Increased size -->
 </shape>

@@ -17,6 +17,12 @@ import com.example.clear_and_glow.utilities.AuthManager
 import com.example.clear_and_glow.utilities.FirestoreManager
 
 class GlobalProductsActivity : AppCompatActivity() {
+
+}
+
+
+
+
 //    private lateinit var binding: ActivityGlobalProductsBinding
 //    private lateinit var productsAdapter: ProductsAdapter
 //    private lateinit var categoriesAdapter: ProductCategoryAdapter
@@ -134,4 +140,4 @@ class GlobalProductsActivity : AppCompatActivity() {
 //        startActivity(intent)
 //        finish()
 //    }
-}
+//}

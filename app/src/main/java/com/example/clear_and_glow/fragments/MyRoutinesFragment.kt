@@ -12,20 +12,23 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.clear_and_glow.adapters.RoutineAdapter
 import com.example.clear_and_glow.databinding.FragmentMyRoutinesBinding
 import com.example.clear_and_glow.dialogs.SelectProductDialog
+import com.example.clear_and_glow.interfaces.FirestoreCallback
 import com.example.clear_and_glow.models.Product
 import com.example.clear_and_glow.utilities.AuthManager
+import com.example.clear_and_glow.viewModels.FeedViewModel
 import com.example.clear_and_glow.viewmodels.ProductsViewModel
 
 class MyRoutinesFragment : Fragment() {
 
     private val routineViewModel: RoutineViewModel by viewModels()
     private val productsViewModel: ProductsViewModel by viewModels()
+    private val feedViewModel: FeedViewModel by viewModels()
     private lateinit var selectProductDialog: SelectProductDialog
     private lateinit var binding: FragmentMyRoutinesBinding
     private lateinit var morningAdapter: RoutineAdapter
     private lateinit var eveningAdapter: RoutineAdapter
     private lateinit var authManager: AuthManager
-    private var timeOfDay: String = ""
+//    private var timeOfDay: String = ""
 
     private var isEditModeMorning = false
     private var isEditModeEvening = false
@@ -78,11 +81,11 @@ class MyRoutinesFragment : Fragment() {
     private fun setupRecyclerViews() {
 
         morningAdapter = RoutineAdapter(mutableListOf(), isEditModeMorning) { product ->
-            if (isEditModeMorning) removeProductFromRoutine(product, "Morning")
+            if (isEditModeMorning) handleRemoveProductClick(product, "Morning")
         }
 
         eveningAdapter = RoutineAdapter(mutableListOf(), isEditModeEvening) { product ->
-            if (isEditModeEvening) removeProductFromRoutine(product, "Evening")
+            if (isEditModeEvening) handleRemoveProductClick(product, "Evening")
         }
 
         binding.routinesRVMorning.layoutManager = LinearLayoutManager(requireContext())
@@ -108,6 +111,10 @@ class MyRoutinesFragment : Fragment() {
 
         }
 
+        binding.routinesBTNShareMorning.setOnClickListener {
+            shareRoutine("Morning")
+        }
+
         binding.routinesBTNEditEvening.setOnClickListener {
             toggleEditModeUi(!isEditModeEvening, "Evening")
         }
@@ -120,6 +127,30 @@ class MyRoutinesFragment : Fragment() {
             saveChanges()
             toggleEditModeUi(!isEditModeEvening, "Evening")
         }
+
+        binding.routinesBTNShareEvening.setOnClickListener {
+            shareRoutine("Evening")
+        }
+    }
+
+    fun shareRoutine(timeOfDay: String) {
+        val userId = authManager.getCurrentUserUid() ?: return
+        val routine =
+            routineViewModel.userRoutines.value?.find { it.timeOfDay == timeOfDay } ?: return
+        feedViewModel.shareRoutine(userId, timeOfDay, routine, object : FirestoreCallback {
+            override fun onSuccess() {
+                Toast.makeText(requireContext(), "Routine shared successfully", Toast.LENGTH_SHORT)
+                    .show()
+            }
+
+            override fun onFailure(errorMessage: String) {
+                Toast.makeText(
+                    requireContext(),
+                    "Failed to share routine: $errorMessage",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        })
     }
 
 
@@ -194,7 +225,7 @@ class MyRoutinesFragment : Fragment() {
     }
 
 
-    private fun removeProductFromRoutine(product: Product, timeOfDay: String) {
+    private fun handleRemoveProductClick(product: Product, timeOfDay: String) {
         val userId = authManager.getCurrentUserUid() ?: return
         routineViewModel.removeProductFromRoutine(userId, product, timeOfDay)
     }

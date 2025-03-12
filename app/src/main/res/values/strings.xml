@@ -15,9 +15,13 @@
     <string name="create_account">Create Account</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
-    <string name="opened_date">opened date:</string>
+    <string name="opened_date">Opened date:</string>
     <string name="skin_type">Skin type:</string>
-    <string name="expired_date">expired_date</string>
+    <string name="expired_date">Expired date:</string>
     <string name="there_s_no_products_yet">There\'s no products yet</string>
     <string name="drag_handle_for_reordering">Drag handle for reordering</string>
+    <string name="brand">Brand:</string>
+    <string name="like_count_text">%d</string>
+    <string name="welcome_user">Welcome %s!</string>
+
 </resources>

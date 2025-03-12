@@ -32,20 +32,6 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
-        binding.registerETDOB.setOnClickListener {
-            val calendar = Calendar.getInstance()
-            val year = calendar.get(Calendar.YEAR)
-            val month = calendar.get(Calendar.MONTH)
-            val day = calendar.get(Calendar.DAY_OF_MONTH)
-
-            val datePicker = DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
-                val dob = "$selectedDay/${selectedMonth + 1}/$selectedYear"
-                binding.registerETDOB.setText(dob)
-            }, year, month, day)
-
-            datePicker.show()
-        }
-
         binding.registerBTNSubmit.setOnClickListener { registerUser() }
         binding.registerBTNBack.setOnClickListener { finish() }
     }
@@ -55,9 +41,8 @@ class RegisterActivity : AppCompatActivity() {
         val lastName = binding.registerETLastName.editText?.text.toString().trim().capitalizeFirstLetter()
         val email = binding.registerETEmail.editText?.text.toString().trim()
         val password = binding.registerETPassword.editText?.text.toString().trim()
-        val dob = binding.registerETDOB.text.toString().trim()
 
-        if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty() || dob.isEmpty()) {
+        if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
             return
         }
@@ -69,7 +54,6 @@ class RegisterActivity : AppCompatActivity() {
                         .firstName(firstName)
                         .lastName(lastName)
                         .email(email)
-                        .dob(dob)
                         .uid(userId)
                         .build()
 

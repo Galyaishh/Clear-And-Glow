@@ -2,6 +2,7 @@ package com.example.clear_and_glow.utilities
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import com.example.clear_and_glow.R
 import com.example.clear_and_glow.interfaces.FirestoreCallback
 import com.example.clear_and_glow.interfaces.UserCallback
@@ -136,10 +137,21 @@ class AuthManager private constructor(context: Context) {
         return firebaseAuth.currentUser
     }
 
+    fun getUserName():String{
+
+        val firstName = firebaseAuth.currentUser?.displayName?.substringBefore(" ")?.capitalizeFirstLetter() ?: ""
+        val lastName = firebaseAuth.currentUser?.displayName?.substringAfter(" ")?.capitalizeFirstLetter() ?: ""
+
+        return "$firstName $lastName"
+    }
+
 
     fun signOut() {
         firebaseAuth.signOut()
         googleSignInClient.signOut()
+        googleSignInClient.revokeAccess().addOnCompleteListener {
+            Log.d("AuthManager", "Cache cleared, user must re-authenticate")
+        }
     }
 
     interface AuthCallback {
