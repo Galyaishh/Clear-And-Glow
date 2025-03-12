@@ -24,8 +24,6 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal">
 
-
-
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/feed_BTN_logout"
                     android:layout_width="30dp"
@@ -48,8 +46,6 @@
                     app:rippleColor="@color/light_gray"
                     />
 
-
-                <!-- Profile Button with Camera Overlay -->
                 <FrameLayout
                     android:layout_width="55dp"
                     android:layout_height="55dp"
@@ -57,7 +53,6 @@
                     android:layout_margin="5dp">
 
 
-                    <!-- User Profile Image -->
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/feed_IMG_profile"
                         android:layout_width="55dp"
@@ -74,7 +69,6 @@
                         app:iconTint="@color/black"
                        />
 
-                    <!-- Camera Icon (Overlay on Bottom-Right) -->
                     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
                         android:id="@+id/feed_BTN_camera"
                         android:layout_width="10dp"

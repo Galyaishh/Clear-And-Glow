@@ -123,8 +123,6 @@
             android:textColor="@color/black"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-
-    <!-- Sign up Button -->
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/register_BTN_submit"
         style="@style/RoundedFAB"
@@ -141,9 +139,6 @@
         app:layout_constraintTop_toBottomOf="@id/register_ET_password"
         app:layout_constraintWidth_percent="0.5" />
 
-
-
-    <!-- App Logo at the Bottom -->
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/register_IMG_logo"
         android:layout_width="100dp"

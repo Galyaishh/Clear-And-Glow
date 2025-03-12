@@ -34,7 +34,6 @@
         android:layout_marginTop="0dp"
         />
 
-<!--SIGN IN-->
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/auth_BTN_signup"
         android:layout_width="0dp"
@@ -54,7 +53,6 @@
         style="@style/RoundedFAB"
         />
 
-<!--Google sign in-->
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/auth_BTN_google"
         android:layout_width="0dp"
@@ -74,12 +72,11 @@
         style="@style/RoundedFAB"
         />
 
-<!--ALREADY A MEMBER?-->
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/auth_TXT_already_member"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/already_a_member"
+        android:text="@string/already_have_account"
         app:layout_constraintTop_toBottomOf="@id/auth_BTN_google"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -90,7 +87,6 @@
         android:gravity="center"
         />
 
-<!--SIGN IN-->
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/auth_BTN_signin"
         android:layout_width="0dp"
@@ -109,6 +105,5 @@
         android:gravity="center"
         style="@style/RoundedFAB"
         />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

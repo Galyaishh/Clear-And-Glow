@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">Clear-And-Glow</string>
     <string name="clear_information_for_clear_face">clear information for clear face</string>
-    <string name="already_a_member">Already a member?</string>
     <string name="continue_with_google">Continue with Google</string>
     <string name="sign_up">Sign up</string>
     <string name="sign_in">Sign in</string>
     <string name="log_in">Log in</string>
+    <string name="already_have_account">Already have account?</string>
     <string name="enter_your_password">Enter your password</string>
     <string name="app_logo">App Logo</string>
     <string name="enter_your_email">Enter your email</string>
@@ -23,5 +23,19 @@
     <string name="brand">Brand:</string>
     <string name="like_count_text">%d</string>
     <string name="welcome_user">Welcome %s!</string>
+    <string name="my_products">My Products</string>
+    <string name="add_product">Add Product</string>
+    <string name="add_products">Add Products</string>
+    <string name="search_product">Search product...</string>
+    <string name="share_morning_routine">Share morning routine</string>
+    <string name="morning">Morning</string>
+    <string name="add_to_morning_routine">Add to morning routine</string>
+    <string name="edit_morning_routine">Edit morning routine</string>
+    <string name="submit_morning_routine">Submit morning routine</string>
+    <string name="share_evening_routine">Share evening routine</string>
+    <string name="evening">Evening</string>
+    <string name="add_to_evening_routine">Add to evening routine</string>
+    <string name="edit_evening_routine">Edit evening routine</string>
+    <string name="submit_evening_routine">Submit evening routine</string>
 
 </resources>

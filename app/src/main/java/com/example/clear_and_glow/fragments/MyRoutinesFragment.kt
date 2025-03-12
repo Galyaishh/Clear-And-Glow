@@ -164,10 +164,22 @@ class MyRoutinesFragment : Fragment() {
 
         selectProductDialog =
             SelectProductDialog(requireContext(), userProducts) { selectedProduct ->
-                productsViewModel.updateProductDates(userId, selectedProduct)
-                addProductToRoutine(selectedProduct, timeOfDay)
-                routineViewModel.loadUserRoutines(userId)
 
+                val currentRoutine =
+                    routineViewModel.userRoutines.value?.find { it.timeOfDay == timeOfDay }
+                val isAlreadyInRoutine =
+                    currentRoutine?.products?.any { it.id == selectedProduct.id } == true
+                if (isAlreadyInRoutine) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Product already in your $timeOfDay routine",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    productsViewModel.updateProductDates(userId, selectedProduct)
+                    addProductToRoutine(selectedProduct, timeOfDay)
+                    routineViewModel.loadUserRoutines(userId)
+                }
             }
         selectProductDialog.show()
     }
@@ -177,11 +189,6 @@ class MyRoutinesFragment : Fragment() {
         val userId = authManager.getCurrentUserUid() ?: return
         routineViewModel.addProductToRoutine(userId, product, timeOfDay)
     }
-
-    private fun updateProductDates(userId: String, selectedProduct: Product) {
-        productsViewModel.updateProductDates(userId, selectedProduct)
-    }
-
 
     private fun toggleEditModeUi(isEditMode: Boolean, timeOfDay: String) {
         when (timeOfDay) {

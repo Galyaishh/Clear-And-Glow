@@ -7,18 +7,8 @@
     android:padding="16dp"
     tools:context=".fragments.MyRoutinesFragment">
 
-    <!-- Back Button -->
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/routines_list_IMG_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:contentDescription="Back"
-        android:src="@drawable/ic_back"
-        android:visibility="invisible" />
 
-    <!-- Title Header -->
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/routines_list_TXT_title"
         android:layout_width="wrap_content"
@@ -30,15 +20,13 @@
         android:textSize="18sp"
         android:textStyle="bold" />
 
-    <!-- Container for Morning & Evening Routines -->
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/routines_list_IMG_back"
-        android:layout_marginTop="16dp"
+        android:layout_below="@id/routines_list_TXT_title"
+        android:layout_marginTop="0dp"
         android:orientation="vertical">
 
-        <!-- Morning Routine Section -->
         <FrameLayout
             android:id="@+id/routines_FRAME_morning"
             android:layout_width="match_parent"
@@ -62,7 +50,7 @@
                         android:id="@+id/routines_BTN_share_morning"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:contentDescription="Share morning routine"
+                        android:contentDescription="@string/share_morning_routine"
                         android:src="@drawable/ic_share" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -71,7 +59,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:layout_toEndOf="@id/routines_BTN_share_morning"
-                        android:text="Morning"
+                        android:text="@string/morning"
                         android:textSize="22sp"
                         android:textStyle="bold"
                         android:fontFamily=""/>
@@ -89,7 +77,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_alignParentStart="true"
-                        android:contentDescription="Add to morning routine"
+                        android:contentDescription="@string/add_to_morning_routine"
                         android:src="@drawable/ic_plus"
                         android:visibility="invisible" />
 
@@ -98,7 +86,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_alignParentEnd="true"
-                        android:contentDescription="Edit morning routine"
+                        android:contentDescription="@string/edit_morning_routine"
                         android:src="@drawable/ic_edit" />
 
                     <androidx.appcompat.widget.AppCompatImageView
@@ -106,7 +94,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_alignParentEnd="true"
-                        android:contentDescription="Submit morning routine"
+                        android:contentDescription="@string/submit_morning_routine"
                         android:src="@drawable/ic_check"
                         android:visibility="gone" />
 
@@ -156,7 +144,7 @@
                     android:id="@+id/routines_BTN_share_evening"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:contentDescription="Share evening routine"
+                    android:contentDescription="@string/share_evening_routine"
                     android:src="@drawable/ic_share" />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -165,7 +153,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@id/routines_BTN_share_evening"
                     android:layout_marginStart="5dp"
-                    android:text="Evening"
+                    android:text="@string/evening"
                     android:textSize="22sp"
                     android:textStyle="bold" />
                 </RelativeLayout>
@@ -180,7 +168,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_alignParentStart="true"
-                        android:contentDescription="Add to morning routine"
+                        android:contentDescription="@string/add_to_evening_routine"
                         android:src="@drawable/ic_plus"
                         android:visibility="invisible" />
 
@@ -189,7 +177,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_alignParentEnd="true"
-                        android:contentDescription="Edit evening routine"
+                        android:contentDescription="@string/edit_evening_routine"
                         android:src="@drawable/ic_edit" />
 
                     <androidx.appcompat.widget.AppCompatImageView
@@ -197,7 +185,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_alignParentEnd="true"
-                        android:contentDescription="Submit evening routine"
+                        android:contentDescription="@string/submit_evening_routine"
                         android:src="@drawable/ic_check"
                         android:visibility="gone" />
 

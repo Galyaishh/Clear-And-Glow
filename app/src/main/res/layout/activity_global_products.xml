@@ -19,7 +19,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         />
-    <!-- 🔍 Search Bar -->
+
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/global_product_ET_search"
         android:layout_width="match_parent"
@@ -33,7 +33,6 @@
         android:shadowColor="@color/pink"
         android:singleLine="true" />
 
-    <!-- 🛒 Horizontal Categories -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/global_product_RV_categories"
         android:layout_width="match_parent"
@@ -46,7 +45,6 @@
         android:scrollbars="none"
         tools:listitem="@layout/product_category_item" />
 
-    <!-- 📦 Global Products List -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/global_product_RV_products"
         android:layout_width="match_parent"

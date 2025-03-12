@@ -74,7 +74,7 @@ class FeedViewModel : ViewModel() {
                     id = firestoreManager.generateDocumentId(Constants.DB.SHARED_ROUTINE_REF),
                     userId = userId,
                     userName = user.getFullName(),
-                    profileImageRes = user.profilePicUrl, // Ensure the User model has this field
+                    profileImageRes = user.profilePicUrl,
                     title = "$timeOfDay Routine",
                     routine = routine
                 )
