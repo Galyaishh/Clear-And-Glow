@@ -58,6 +58,3 @@
 ---
 
 ⭐ **Star this repo if you found it useful!**
-
-Happy coding! 💖
-
