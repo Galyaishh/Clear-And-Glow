@@ -46,8 +46,9 @@ class ImageLoader private constructor(context: Context) {
         Glide.with(imageView.context)
             .load(uri)
             .centerCrop()
-            .placeholder(placeholder)
-            .into(imageView)
+            .placeholder(placeholder).
+            diskCacheStrategy(DiskCacheStrategy.NONE).
+            into(imageView)
     }
 
     companion object {

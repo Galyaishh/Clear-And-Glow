@@ -23,6 +23,8 @@ class FeedViewModel : ViewModel() {
     val sharedRoutines: LiveData<List<SharedRoutine>> get() = _sharedRoutines
 
 
+
+
     fun loadSharedRoutines() {
         firestoreManager.listenForSharedRoutineUpdates(object : SharedRoutinesCallback {
             override fun onSuccess(sharedRoutines: List<SharedRoutine>) {

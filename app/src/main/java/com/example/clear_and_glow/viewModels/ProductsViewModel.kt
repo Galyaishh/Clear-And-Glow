@@ -38,6 +38,19 @@ class ProductsViewModel : ViewModel() {
         })
     }
 
+//    fun loadGlobalProducts() {
+//        firestoreManager.listenForGlobalProductsUpdates(object : ProductListCallback {
+//            override fun onSuccess(products: List<Product>) {
+//                _globalProducts.value = products
+//            }
+//
+//            override fun onFailure(errorMessage: String) {
+//                Log.e("ProductsViewModel", "Failed to fetch global products: $errorMessage")
+//            }
+//        })
+//    }
+
+
     fun loadGlobalProducts() {
         firestoreManager.getAllGlobalProducts(object : ProductListCallback {
             override fun onSuccess(products: List<Product>) {
@@ -93,6 +106,21 @@ class ProductsViewModel : ViewModel() {
             }
         })
     }
+
+    fun refreshProducts() {
+        firestoreManager.getAllGlobalProducts(object : ProductListCallback {
+            override fun onSuccess(products: List<Product>) {
+                _globalProducts.value = products // מעדכן את LiveData עם המוצרים החדשים
+            }
+
+            override fun onFailure(errorMessage: String) {
+                Log.e("Firestore", "Failed to refresh products: $errorMessage")
+            }
+        })
+    }
+
+
+
 
     fun updateProductDates(userId: String, product: Product) {
         product.openingDate = TimeFormater().getFormattedDate()

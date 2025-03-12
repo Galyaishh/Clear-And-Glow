@@ -3,6 +3,7 @@ package com.example.clear_and_glow.fragments
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -61,6 +62,14 @@ class ProductsFragment : Fragment() {
                 updateUi(products)
             }
         }
+
+//        productsViewModel.globalProducts.observe(viewLifecycleOwner) { products ->
+//            if (isGlobalView) {
+//                Log.d("ProductsFragment", "Loaded ${products.size} global products")
+//                productsAdapter.updateList(products)
+//            }
+//        }
+
 
         productsViewModel.userProducts.observe(viewLifecycleOwner) { products ->
             if (!isGlobalView) {

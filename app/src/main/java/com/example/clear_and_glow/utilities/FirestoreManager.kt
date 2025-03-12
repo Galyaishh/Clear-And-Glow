@@ -51,12 +51,13 @@ class FirestoreManager private constructor() {
             .addOnFailureListener { e -> callback.onFailure(e.message ?: "Error fetching user") }
     }
 
-    fun saveUserProfilePic(userId: String, imageUrl: String, callback: FirestoreCallback){
-        db.collection(Constants.DB.USER_REF).document(userId).update("profilePicUrl", imageUrl).addOnSuccessListener {
-            callback.onSuccess()
-        }.addOnFailureListener { e ->
-            callback.onFailure(e.message ?: "Failed to save user profile picture")
-        }
+    fun saveUserProfilePic(userId: String, imageUrl: String, callback: FirestoreCallback) {
+        db.collection(Constants.DB.USER_REF).document(userId).update("profilePicUrl", imageUrl)
+            .addOnSuccessListener {
+                callback.onSuccess()
+            }.addOnFailureListener { e ->
+                callback.onFailure(e.message ?: "Failed to save user profile picture")
+            }
     }
 
     fun getUserProfilePic(userId: String, callback: (String?) -> Unit) {
@@ -70,12 +71,13 @@ class FirestoreManager private constructor() {
             }
     }
 
-    fun updateUserProfilePic(userId: String, imageUrl: String, callback: FirestoreCallback){
-        db.collection(Constants.DB.USER_REF).document(userId).update("profilePicUrl", imageUrl).addOnSuccessListener {
-            callback.onSuccess()
-        }.addOnFailureListener { e ->
-            callback.onFailure(e.message ?: "Failed to save user profile picture")
-        }
+    fun updateUserProfilePic(userId: String, imageUrl: String, callback: FirestoreCallback) {
+        db.collection(Constants.DB.USER_REF).document(userId).update("profilePicUrl", imageUrl)
+            .addOnSuccessListener {
+                callback.onSuccess()
+            }.addOnFailureListener { e ->
+                callback.onFailure(e.message ?: "Failed to save user profile picture")
+            }
     }
 
     fun saveProductToGlobal(product: Product, callback: FirestoreCallback) {
@@ -85,6 +87,37 @@ class FirestoreManager private constructor() {
         productRef.set(productWithId)
             .addOnSuccessListener { callback.onSuccess() }
             .addOnFailureListener { e -> callback.onFailure(e.message ?: "Failed to save product") }
+    }
+
+//    fun getAllGlobalProducts(callback: ProductListCallback) {
+//        db.collection(Constants.DB.GLOBAL_PRODUCT_REF).get()
+//            .addOnSuccessListener { documents ->
+//                val productList = documents.map { document ->
+//                    document.toObject(Product::class.java).copy(id = document.id)
+//                }
+//                callback.onSuccess(productList)
+//            }
+//            .addOnFailureListener { e ->
+//                callback.onFailure(e.message ?: "Error loading products")
+//            }
+//    }
+
+
+    fun listenForGlobalProductsUpdates(callback: ProductListCallback) {
+        db.collection(Constants.DB.GLOBAL_PRODUCT_REF)
+            .addSnapshotListener { snapshots, error ->
+                if (error != null) {
+                    callback.onFailure(error.message ?: "Error listening for product updates")
+                    return@addSnapshotListener
+                }
+
+                if (snapshots != null) {
+                    val productList = snapshots.map { document ->
+                        document.toObject(Product::class.java).copy(id = document.id)
+                    }
+                    callback.onSuccess(productList)
+                }
+            }
     }
 
 
@@ -130,6 +163,14 @@ class FirestoreManager private constructor() {
             callback.onSuccess(categoryList)
         }.addOnFailureListener { e -> callback.onFailure(e.message ?: "Error loading categories") }
     }
+
+    fun updateProductImage(productId: String, imageUrl: String, callback: FirestoreCallback) {
+        db.collection(Constants.DB.GLOBAL_PRODUCT_REF).document(productId)
+            .update("picture", imageUrl)
+            .addOnSuccessListener { callback.onSuccess() }
+            .addOnFailureListener { e -> callback.onFailure(e.message ?: "Failed to update image") }
+    }
+
 
     fun updateProductDates(userId: String, product: Product): Task<Void> {
         val userProductRef = db.collection(Constants.DB.USER_REF).document(userId)
@@ -235,40 +276,7 @@ class FirestoreManager private constructor() {
         val sampleProducts = listOf(
             Product(
                 id = "",
-                picture = "",
-                name = "CeraVe Hydrating Facial Cleanser",
-                brand = "CeraVe",
-                skinType = "Normal to Dry",
-                category = "Cleanser",
-                ingredients = listOf("Ceramides", "Hyaluronic Acid", "Glycerin"),
-                shelfLifeMonths = 12,
-                barcode = "3606000537477"
-            ),
-            Product(
-                id = "",
-                picture = "https://example.com/la-roche-posay-spf50.jpg",
-                name = "La Roche-Posay Anthelios Melt-in Milk Sunscreen SPF 50",
-                brand = "La Roche-Posay",
-                skinType = "All",
-                category = "SPF",
-                ingredients = listOf("Avobenzone", "Homosalate", "Octisalate", "Octocrylene"),
-                shelfLifeMonths = 6,
-                barcode = "3337872419522"
-            ),
-            Product(
-                id = "",
-                picture = "https://example.com/the-ordinary-niacinamide.jpg",
-                name = "The Ordinary Niacinamide 10% + Zinc 1%",
-                brand = "The Ordinary",
-                skinType = "Oily, Acne-Prone",
-                category = "Serum",
-                ingredients = listOf("Niacinamide", "Zinc PCA", "Tamarindus Indica Seed Gum"),
-                shelfLifeMonths = 12,
-                barcode = "769915190156"
-            ),
-            Product(
-                id = "",
-                picture = "https://example.com/estee-lauder-advanced-night-repair.jpg",
+                picture = "gs://clearglow-ba4bb.firebasestorage.app/p1.jpg",
                 name = "Estée Lauder Advanced Night Repair Serum",
                 brand = "Estée Lauder",
                 skinType = "All",
@@ -280,28 +288,6 @@ class FirestoreManager private constructor() {
                 ),
                 shelfLifeMonths = 18,
                 barcode = "027131953728"
-            ),
-            Product(
-                id = "",
-                picture = "https://example.com/neutrogena-hydro-boost.jpg",
-                name = "Neutrogena Hydro Boost Water Gel",
-                brand = "Neutrogena",
-                skinType = "Normal to Oily",
-                category = "Moisturizer",
-                ingredients = listOf("Hyaluronic Acid", "Dimethicone", "Glycerin"),
-                shelfLifeMonths = 12,
-                barcode = "070501110167"
-            ),
-            Product(
-                id = "",
-                picture = "https://example.com/kiehl-avocado-eye-cream.jpg",
-                name = "Kiehl's Creamy Eye Treatment with Avocado",
-                brand = "Kiehl's",
-                skinType = "All",
-                category = "Eye Cream",
-                ingredients = listOf("Avocado Oil", "Shea Butter", "Beta-Carotene"),
-                shelfLifeMonths = 12,
-                barcode = "3605975020880"
             )
         )
 
@@ -382,7 +368,11 @@ class FirestoreManager private constructor() {
                 )
             )
             .addOnSuccessListener { callback.onSuccess() }
-            .addOnFailureListener { e -> callback.onFailure(e.message ?: "Failed to update shared routine") }
+            .addOnFailureListener { e ->
+                callback.onFailure(
+                    e.message ?: "Failed to update shared routine"
+                )
+            }
     }
 
     fun listenForSharedRoutineUpdates(callback: SharedRoutinesCallback) {

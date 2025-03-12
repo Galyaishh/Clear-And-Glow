@@ -25,6 +25,7 @@ class AuthActivity : AppCompatActivity() {
 
 
 //        FirestoreManager.getInstance().addSampleProductsToGlobal()
+
         authManager = AuthManager.getInstance(this)
 
 

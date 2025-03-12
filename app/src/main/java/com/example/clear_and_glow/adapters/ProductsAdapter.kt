@@ -26,6 +26,7 @@ class ProductsAdapter(
             binding.productTXTBrand.text = product.brand
             binding.productTXTSkinType.text = product.skinType
             binding.productTXTIngredients.text = product.ingredients.joinToString(", ")
+            
 
             ImageLoader.getInstance().loadImage(product.picture, binding.productIMGPicture)
 
