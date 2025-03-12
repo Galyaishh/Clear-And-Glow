@@ -29,6 +29,7 @@ class StorageManager(
 
         productImageRef.putFile(imageUri)
             .addOnSuccessListener {
+
                 productImageRef.downloadUrl.addOnSuccessListener { uri ->
                     callback(uri.toString())
                 }
